@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { useState } from "react";
+import RegisterForm from "./Login/RegisterForm";
+import LoginForm from "./Login/LoginForm";
+import "./App.css";
+import logo from "./assets/logo1.png";
 
 function App() {
+  const [isRegister, setIsRegister] = useState(true);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="form-container">
+        <div className="header">
+          <img src={logo} alt="Logo" className="logo-image" />
+          <button className="toggle-button" onClick={() => setIsRegister(!isRegister)}>
+            {isRegister ? "Masuk" : "Daftar"}
+          </button>
+        </div>
+        {isRegister ? <RegisterForm /> : <LoginForm />}
+      </div>
     </div>
   );
 }
