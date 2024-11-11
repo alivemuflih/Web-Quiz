@@ -1,25 +1,21 @@
 // src/App.js
-import React, { useState } from "react";
-import RegisterForm from "./Login/RegisterForm";
-import LoginForm from "./Login/LoginForm";
-import "./App.css";
-import logo from "./assets/logo1.png";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./Login/Login.js"; //ini mengarah ke Login.js
+import Siswa from "./MainMenu/Siswa.jsx"; //mengarah ke Siswa.jsx
+import MataPelajaran from "./MainMenu/MataPelajaran.jsx"; //mengarah ke MataPelajaran.jsx
+import Soal from "./MainMenu/Soal.jsx"; //mengarah ke Soal.jsx
 
 function App() {
-  const [isRegister, setIsRegister] = useState(true);
-
   return (
-    <div className="App">
-      <div className="form-container">
-        <div className="header">
-          <img src={logo} alt="Logo" className="logo-image" />
-          <button className="toggle-button" onClick={() => setIsRegister(!isRegister)}>
-            {isRegister ? "Masuk" : "Daftar"}
-          </button>
-        </div>
-        {isRegister ? <RegisterForm /> : <LoginForm />}
-      </div>
-    </div>
+    <Router>
+      <Routes>
+      <Route path="/" element={<Login />} />
+        <Route path="/siswa" element={<Siswa />} />
+        <Route path="/mata-pelajaran" element={<MataPelajaran />} /> {/* Rute untuk MataPelajaran */}
+        <Route path="/soal" element={<Soal />} /> {/* Rute untuk Soal */}
+      </Routes>
+    </Router>
   );
 }
 
