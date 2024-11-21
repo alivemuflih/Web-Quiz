@@ -1,0 +1,173 @@
+.app {
+    display: grid;
+    grid-template-rows: 60px auto; /* Header di atas, konten di bawah */
+    grid-template-columns: 250px auto; /* Sidebar + konten utama */
+    grid-template-areas:
+      "header header"
+      "sidebar main-content";
+    height: 100vh; /* Pastikan aplikasi memenuhi tinggi layar */
+    transition: grid-template-columns 0.3s; /* Animasi saat sidebar disembunyikan */
+  }
+  
+  .app.sidebar-hidden {
+    grid-template-columns: 0 auto; /* Hilangkan sidebar, konten utama ambil semua ruang */
+  }
+     
+  .main-content {
+    grid-area: main-content; /* Konten utama di area utama */
+    padding: 80px 20px 20px; /* Tambahkan padding atas untuk memberi ruang bagi header */
+    overflow-y: auto; /* Scroll jika konten utama lebih tinggi dari layar */
+    transition: all 0.3s; /* Animasi saat sidebar disembunyikan */
+  }
+  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap; /* Supaya kartu tetap rapi saat layar kecil */
+    gap: 20px; /* Jarak antar kartu */
+    justify-content: flex-start; /* Atur kartu agar mulai dari kiri */
+  }
+  
+  
+/*header*/
+.headeradmin {
+    grid-area: header; /* Header tetap di area header */
+    position: fixed; /* Fixed di bagian atas */
+    top: 0;
+    left: 0;
+    width: 100%; /* Lebar penuh */
+    z-index: 1000; /* Pastikan selalu di atas */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Konten di dalam header berjauhan */
+    background-color: #212529;
+    color: white;
+    padding: 10px 20px;
+    height: 60px;
+  }
+
+  .headeradmin h1 {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .headeradmin .logout {
+    background-color: #17a2b8;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .hamburger {
+    background: none;
+    border: none;
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 15px;
+  } 
+
+/*sidebar*/
+.sidebar {
+    grid-area: sidebar; /* Sidebar tetap di area sidebar */
+    background-color: #333;
+    color: white;
+    height: calc(100vh - 60px); /* Sidebar menyesuaikan tinggi tanpa mengganggu header */
+    padding: 20px;
+    overflow-y: auto;
+    transition: transform 0.3s; /* Animasi saat sidebar disembunyikan */
+  }
+  
+  .sidebar-hidden .sidebar {
+    transform: translateX(-100%); /* Geser sidebar keluar layar */
+  }
+
+  .profile {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile img {
+    border-radius: 50%;
+  }
+  
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .menu-button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px;
+    text-align: left;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .menu-button:hover {
+    background-color: #555;
+  }
+  
+  .menu-button i {
+    margin-right: 10px;
+  }
+
+  /*home*/
+  .card {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+    padding: 20px;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none; /* Hilangkan border default button */
+    background-color: inherit; /* Warna berdasarkan class */
+    cursor: pointer; /* Tampilkan kursor pointer */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .card:focus {
+    outline: none; /* Hilangkan fokus default pada tombol */
+  }
+  
+  .card:hover {
+    transform: scale(1.05); /* Sedikit perbesar saat hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tambahkan bayangan */
+  }
+  
+  .card i {
+    font-size: 24px;
+  }
+  .card h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  .card .count {
+    font-size: 24px;
+  }
+  .card.students {
+    background-color: #17a2b8;
+  }
+  .card.teachers {
+    background-color: #6f42c1;
+  }
+  .card.courses {
+    background-color: #fd7e14;
+  }
+  .card.questions {
+    background-color: #6c757d;
+  }
+  

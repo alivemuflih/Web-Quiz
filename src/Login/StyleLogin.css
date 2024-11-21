@@ -29,7 +29,7 @@ body {
     position: relative;
 }
 
-.header {
+.headerlogin {
     display: flex;
     justify-content: space-between;
     align-items: center;

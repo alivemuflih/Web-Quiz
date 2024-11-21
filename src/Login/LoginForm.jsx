@@ -11,8 +11,8 @@ const LoginForm = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     // Contoh validasi login
-    if (username === "admin" && password === "password") {
-      navigate("/Siswa"); // Arahkan ke halaman siswa
+    if (username === "admin" && password === "1234") {
+      navigate("/Admin"); // Arahkan ke halaman siswa
     } else {
       alert("Username atau password salah");
     }
