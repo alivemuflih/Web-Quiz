@@ -1,15 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FaUserGraduate, FaChalkboardTeacher, FaBook, FaQuestionCircle, FaTachometerAlt } from "react-icons/fa";
 import './admin.css';
 
-const Sidebar = () => {
-  const navigate = useNavigate();
-
-  // Handler for navigating to different sections
-  const handleNavigation = (path) => {
-    navigate(path);
-  };
-
+// Sidebar component that takes onSectionChange as a prop
+const Sidebar = ({ onSectionChange }) => {
   return (
     <div className="sidebar">
       <div className="profile">
@@ -22,20 +16,21 @@ const Sidebar = () => {
         <h2>Admin</h2>
       </div>
       <div className="menu">
-        <button className="menu-button" onClick={() => handleNavigation('/dashboard')}>
-          <i className="fas fa-tachometer-alt"></i> Dashboard
+        {/* Sidebar buttons that trigger section change */}
+        <button className="menu-button" onClick={() => onSectionChange('dashboard')}>
+          <FaTachometerAlt size={20} /> Dashboard
         </button>
-        <button className="menu-button" onClick={() => handleNavigation('/teacher')}>
-          <i className="fas fa-chalkboard-teacher"></i> Teacher
+        <button className="menu-button" onClick={() => onSectionChange('teacher')}>
+          <FaChalkboardTeacher size={20} /> Teacher
         </button>
-        <button className="menu-button" onClick={() => handleNavigation('/student')}>
-          <i className="fas fa-user-graduate"></i> Student
+        <button className="menu-button" onClick={() => onSectionChange('student')}>
+          <FaUserGraduate size={20} /> Student
         </button>
-        <button className="menu-button" onClick={() => handleNavigation('/courses')}>
-          <i className="fas fa-book"></i> Courses
+        <button className="menu-button" onClick={() => onSectionChange('courses')}>
+          <FaBook size={20} /> Courses
         </button>
-        <button className="menu-button" onClick={() => handleNavigation('/question')}>
-          <i className="fas fa-question-circle"></i> Questions
+        <button className="menu-button" onClick={() => onSectionChange('question')}>
+          <FaQuestionCircle size={20} /> Questions
         </button>
       </div>
     </div>

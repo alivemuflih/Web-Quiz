@@ -12,7 +12,7 @@ const LoginForm = () => {
     e.preventDefault();
     // Contoh validasi login
     if (username === "admin" && password === "1234") {
-      navigate("/Admin"); // Arahkan ke halaman siswa
+      navigate("/Admin"); // Arahkan ke halaman admin
     } else {
       alert("Username atau password salah");
     }

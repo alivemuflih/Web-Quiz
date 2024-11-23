@@ -1,31 +1,31 @@
 import React from 'react';
-import './admin.css';
 import { FaBars } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import './admin.css';
 
 const Header = ({ toggleSidebar }) => {
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate(); // Hook untuk navigasi
   
-    // Function to handle logout
+    // Fungsi untuk menangani logout
     const handleLogout = () => {
-      // Perform any necessary cleanup here, such as clearing authentication tokens
+      // Menghapus token autentikasi
       localStorage.removeItem('authToken');
       sessionStorage.removeItem('authToken');
   
-      // Redirect to login page
-      navigate('/LoginForm');
+      // Redirect ke halaman login
+      navigate('/Login');
     };
 
   return (
     <div className="headeradmin">
+      {/* Tombol hamburger yang memanggil toggleSidebar */}
       <button className="hamburger" onClick={toggleSidebar}>
         <FaBars />
       </button>
-      <h1>Nau.Id</h1>
+      <h1>Nau.id</h1>
       <button className="logout" onClick={handleLogout}>Logout</button>
     </div>
   );
 };
 
 export default Header;
-

@@ -1,0 +1,69 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+    align-items: center;
+    color: white;
+    text-align: left;
+    overflow: hidden;
+}
+
+.bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.content {
+    max-width: 600px;
+    padding: 20px;
+    z-index: 1;
+    text-align: left;
+    padding-left: 50px; /* Ensures space from the left edge */
+    padding-right: 20px; /* Optional: Right padding for balance */
+}
+
+.content h1 {
+    font-size: 3em;
+    margin: 0;
+}
+
+.content h1 span {
+    color: #7f04ea;
+}
+
+.content p {
+    font-size: 1.2em;
+    line-height: 1.5;
+    margin: 20px 0;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #0a61b8;
+    color: white;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #c0392b;
+}
