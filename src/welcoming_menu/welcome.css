@@ -6,7 +6,7 @@ body, html {
     font-family: 'Poppins', sans-serif;
 }
 
-.container {
+.container-welcome {
     position: relative;
     width: 100%;
     height: 100vh;

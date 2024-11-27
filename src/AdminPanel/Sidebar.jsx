@@ -18,19 +18,19 @@ const Sidebar = ({ onSectionChange }) => {
       <div className="menu">
         {/* Sidebar buttons that trigger section change */}
         <button className="menu-button" onClick={() => onSectionChange('dashboard')}>
-          <FaTachometerAlt size={20} /> Dashboard
+          <i><FaTachometerAlt size={20} /></i> Dashboard
         </button>
         <button className="menu-button" onClick={() => onSectionChange('teacher')}>
-          <FaChalkboardTeacher size={20} /> Teacher
+          <i><FaChalkboardTeacher size={20} /></i> Teacher
         </button>
         <button className="menu-button" onClick={() => onSectionChange('student')}>
-          <FaUserGraduate size={20} /> Student
+          <i><FaUserGraduate size={20} /></i> Student
         </button>
         <button className="menu-button" onClick={() => onSectionChange('courses')}>
-          <FaBook size={20} /> Courses
+          <i><FaBook size={20} /></i> Courses
         </button>
         <button className="menu-button" onClick={() => onSectionChange('question')}>
-          <FaQuestionCircle size={20} /> Questions
+          <i><FaQuestionCircle size={20} /></i> Questions
         </button>
       </div>
     </div>
@@ -38,3 +38,4 @@ const Sidebar = ({ onSectionChange }) => {
 };
 
 export default Sidebar;
+

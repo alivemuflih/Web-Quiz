@@ -12,7 +12,7 @@ const Welcome = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container-welcome">
       <div className="content">
         <img src={bg} alt="bg" className="bg-image" />
         <h1>Selamat Datang Di <span>Nau.id</span></h1>

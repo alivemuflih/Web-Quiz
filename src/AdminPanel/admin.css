@@ -9,13 +9,13 @@
   transition: grid-template-columns 0.3s; /* Animasi saat sidebar disembunyikan */
 }
 
-.app.sidebar-hidden {
+.sidebar-hidden {
   grid-template-columns: 0 auto; /* Hilangkan sidebar, konten utama ambil semua ruang */
 }
    
 .main-content {
   grid-area: main-content; /* Konten utama di area utama */
-  padding: 80px 20px 20px; /* Tambahkan padding atas untuk memberi ruang bagi header */
+  padding: 0px 20px 20px; /* Tambahkan padding atas untuk memberi ruang bagi header */
   overflow-y: auto; /* Scroll jika konten utama lebih tinggi dari layar */
   transition: all 0.3s; /* Animasi saat sidebar disembunyikan */
 }
@@ -98,9 +98,10 @@
 }
 
 .menu-button {
-  background-color: #444;
-  color: white;
+  background-color: transparent; /* Membuat latar belakang transparan */
+  color: white; /* Menjaga teks tetap terlihat */
   border: none;
+  border-radius: 15px;
   padding: 10px;
   text-align: left;
   font-size: 16px;
@@ -112,11 +113,11 @@
 }
 
 .menu-button:hover {
-  background-color: #555;
+  background-color: #0fabd6;
 }
 
 .menu-button i {
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 /* Mengatur tampilan kartu di dashboard */
@@ -174,54 +175,100 @@
   background-color: #6c757d;
 }
 
-/* Mengatur tampilan tabel dan panel */
+/* Container untuk memberi ruang */
 .container {
   margin: 20px;
+  font-family: 'Arial', sans-serif; /* Menetapkan font yang bersih */
 }
 
+/* Panel dengan desain modern */
 .panel {
   border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Menjaga elemen di dalam tetap teratur */
 }
 
+/* Heading panel dengan warna menarik */
 .panel-heading {
   background-color: #007bff;
   color: white;
-  padding: 10px;
+  padding: 15px;
+  font-size: 18px;
+  text-transform: uppercase; /* Memberi kesan lebih tegas */
+  letter-spacing: 1px; /* Menambahkan spasi huruf untuk kesan modern */
+  border-bottom: 2px solid #0056b3; /* Warna yang lebih gelap untuk border */
+}
+
+/* Tabel lebih modern dan bersih */
+.table {
+  margin: 20px 0;
+  width: 100%;
+  border-collapse: collapse; /* Menghindari jarak antara border */
+}
+
+.table thead {
+  background-color: #f8f9fa; /* Latar belakang ringan untuk header */
+  font-weight: bold;
+  text-align: left;
+}
+
+.table th, .table td {
+  padding: 12px 15px;
   border-bottom: 1px solid #ddd;
 }
 
-.table {
-  margin: 0;
-  width: 100%;
+.table tbody tr {
+  transition: background-color 0.3s ease-in-out; /* Efek transisi saat hover */
 }
 
 .table-hover tbody tr:hover {
-  background-color: #f5f5f5;
+  background-color: #f1f1f1; /* Menyorot baris saat hover */
 }
 
 .table img {
   border-radius: 50%;
+  max-width: 40px; /* Ukuran gambar lebih kecil dan proporsional */
 }
 
+/* Tombol dengan desain yang lebih modern */
 .btn {
-  padding: 5px 10px;
-  font-size: 12px;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: all 0.3s ease; /* Transisi untuk efek hover */
 }
 
 .btn-primary {
   background-color: #007bff;
   border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* Efek hover untuk tombol biru */
 }
 
 .btn-danger {
   background-color: #dc3545;
   border: none;
+  color: white;
+  cursor: pointer;
 }
 
+.btn-danger:hover {
+  background-color: #c82333; /* Efek hover untuk tombol merah */
+}
+
+/* Menambahkan margin dan meningkatkan keterbacaan judul */
 h6 {
   text-align: center;
   margin: 0;
   font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #ffffff;
 }

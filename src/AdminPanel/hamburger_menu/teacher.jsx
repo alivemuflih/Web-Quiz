@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Header from "../Header";
 import Card from "../Home";
 import "../admin.css";
 
-const Teacher = () => {
+const Teacher = ({ onSectionChange }) => { // Terima prop onSectionChange
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
@@ -29,7 +27,8 @@ const Teacher = () => {
             count="1"
             iconClass="fas fa-chalkboard-teacher"
             colorClass="teachers"
-            onClick={() => navigate("/pending-teacher")}
+            // Panggil handleSectionChange dengan nilai 'pending-teacher'
+            onClick={() => onSectionChange("pending-teacher")}
           />
         </div>
       </div>
