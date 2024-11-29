@@ -1,35 +1,105 @@
+/* Mengatur layout umum */
+html, body {
+  height: 100%; /* Pastikan body mengisi seluruh tinggi layar */
+  margin: 0; /* Menghapus margin default */
+}
+
 .app {
   display: grid;
-  grid-template-rows: 60px auto; /* Header di atas, konten di bawah */
-  grid-template-columns: 250px auto; /* Sidebar + konten utama */
+  grid-template-rows: 60px 1fr 40px; /* Header, Content, Footer */
+  grid-template-columns: 250px 1fr; /* Sidebar dan Content */
+  width: 100%; /* Tambahkan width untuk memastikan grid penuh */
   grid-template-areas:
     "header header"
-    "sidebar main-content";
-  height: 100vh; /* Pastikan aplikasi memenuhi tinggi layar */
-  transition: grid-template-columns 0.3s; /* Animasi saat sidebar disembunyikan */
+    "sidebar content"
+    "sidebar footer";
+  height: 100vh;
+  gap: 0;
+  transition: grid-template-columns 0.3s;
 }
 
-.sidebar-hidden {
-  grid-template-columns: 0 auto; /* Hilangkan sidebar, konten utama ambil semua ruang */
-}
-   
-.main-content {
-  grid-area: main-content; /* Konten utama di area utama */
-  padding: 0px 20px 20px; /* Tambahkan padding atas untuk memberi ruang bagi header */
-  overflow-y: auto; /* Scroll jika konten utama lebih tinggi dari layar */
-  transition: all 0.3s; /* Animasi saat sidebar disembunyikan */
+.app.sidebar-collapsed {
+  grid-template-columns: 80px 1fr; /* Sidebar kecil dan konten utama */
+  grid-template-areas:
+    "header header"
+    "sidebar content"
+    "sidebar footer";
 }
 
-.card-container {
+/* Sidebar */
+.sidebar {
+  background-color: #333333;
+  color: white;
+  width: 250px;
+  padding: 10px;
+  grid-area: sidebar; /* Tetapkan sidebar ke area grid */
+  height: auto; /* Tinggi mengikuti konten */
+  overflow-y: auto; /* Tambahkan scroll jika konten terlalu panjang */
+  transition: 0.3s;
+}
+
+.sidebar.collapsed {
+  width: 80px; /* Lebar sidebar ketika collapsed */
+}
+
+.profile {
+  text-align: center;
+  margin-bottom: 20px;
+  transition: 0.3s;
+  margin-top: 20px;
+}
+
+.profile img {
+  border-radius: 50%;
+  transition: width 0.3s, height 0.3s;
+  width: 80px;
+  height: 80px;
+}
+
+.profile h2 {
+  font-size: 18px;
+  transition: opacity 0.3s;
+}
+
+/* Ketika sidebar collapsed */
+.sidebar.collapsed .profile {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.sidebar.collapsed .profile img {
+  width: 40px; /* Ukuran gambar profil lebih kecil */
+  height: 40px;
+}
+
+.sidebar.collapsed .profile h2 {
+  opacity: 0; /* Sembunyikan nama ketika collapsed */
+}
+
+/* Mengubah pengaturan tombol di sidebar */
+.menu button {
+  background: none;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
   display: flex;
-  flex-wrap: wrap; /* Supaya kartu tetap rapi saat layar kecil */
-  gap: 20px; /* Jarak antar kartu */
-  justify-content: flex-start; /* Atur kartu agar mulai dari kiri */
+  align-items: center; /* Memastikan teks dan ikon sejajar vertikal */
+  gap: 10px; /* Memberikan jarak antar ikon dan teks */
 }
 
+.sidebar .menu button i {
+  font-size: 24px; /* Ukuran ikon */
+}
 
-/* Mengatur tampilan header */
-.headeradmin {
+.sidebar .menu button:hover {
+  background-color: #04bbee;
+}
+
+/* Header */
+.header1 {
   grid-area: header;
   position: fixed;
   top: 0;
@@ -45,14 +115,14 @@
   height: 60px;
 }
 
-.headeradmin h1 {
+.header1 h1 {
   flex-grow: 1;
   margin: 0;
   font-size: 24px;
   text-align: center;
 }
 
-.headeradmin .logout {
+.header1 .logout {
   background-color: #17a2b8;
   color: white;
   padding: 5px 10px;
@@ -61,66 +131,32 @@
   cursor: pointer;
 }
 
-.hamburger {
-  background: none;
-  border: none;
-  color: rgb(255, 255, 255);
-  font-size: 24px;
-  cursor: pointer;
-  margin-right: 15px;
+/* Main Content */
+main {
+  grid-area: content; /* Menempatkan main content di grid */
+  padding: 10px 0px; /* Mengurangi margin untuk konten */
+  overflow-y: auto; /* Membuat konten scrollable jika diperlukan */
+  flex-grow: 1; /* Agar konten mengisi ruang yang tersisa */
+  transition: margin-left 0.3s, margin-right 0.3s;
 }
 
-/* Mengatur sidebar */
-.sidebar {
-  grid-area: sidebar;
-  background-color: #333;
-  color: white;
-  height: calc(100vh - 60px); /* Menghitung tinggi sidebar agar tidak mengganggu header */
-  padding: 20px;
-  overflow-y: auto;
-  transition: transform 0.3s; /* Animasi saat sidebar disembunyikan */
+
+/* Konten menyesuaikan ketika sidebar collapsed */
+.app.sidebar-collapsed main {
+  margin-left: 10px; /* Mengurangi margin kiri ketika sidebar tersembunyi */
+  margin-right: 30px; /* Menghindari ruang kosong di sebelah kanan */
 }
 
-/* Mengatur tampilan profile di sidebar */
-.profile {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.profile img {
-  border-radius: 50%;
-}
-
-.menu {
+/* Card Container */
+.card-container {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  width: 1200px;
+  flex-wrap: wrap;
+  gap: 20px; /* Jarak antar kartu */
+  justify-content: flex-start; /* Atur kartu agar mulai dari kiri */
 }
 
-.menu-button {
-  background-color: transparent; /* Membuat latar belakang transparan */
-  color: white; /* Menjaga teks tetap terlihat */
-  border: none;
-  border-radius: 15px;
-  padding: 10px;
-  text-align: left;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.menu-button:hover {
-  background-color: #0fabd6;
-}
-
-.menu-button i {
-  margin-right: 15px;
-}
-
-/* Mengatur tampilan kartu di dashboard */
+/* Make sure the cards stretch to fill the container */
 .card {
   flex: 1;
   min-width: 200px;
@@ -177,7 +213,8 @@
 
 /* Container untuk memberi ruang */
 .container {
-  margin: 20px;
+  margin: 0px;
+  width: 1200px;
   font-family: 'Arial', sans-serif; /* Menetapkan font yang bersih */
 }
 
@@ -271,4 +308,19 @@ h6 {
   font-size: 16px;
   text-transform: uppercase;
   color: #ffffff;
+}  
+
+/* Footer */
+.footer {
+  grid-area: footer; /* Area footer di grid */
+  background-color: #c90b0b;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+  z-index: 10;
+  display: flex; /* Gunakan flexbox */
+  align-items: center; /* Tengah secara vertikal */
+  justify-content: center; /* Tengah secara horizontal */
+  transition: all 0.3s; /* Animasi transisi untuk perubahan */
 }

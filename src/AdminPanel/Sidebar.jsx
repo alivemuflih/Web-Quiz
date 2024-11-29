@@ -1,11 +1,16 @@
-import React from 'react';
-import { FaUserGraduate, FaChalkboardTeacher, FaBook, FaQuestionCircle, FaTachometerAlt } from "react-icons/fa";
-import './admin.css';
+import React from "react";
+import {
+  FaTachometerAlt,
+  FaChalkboardTeacher,
+  FaUserGraduate,
+  FaBook,
+  FaQuestionCircle,
+} from "react-icons/fa";
 
-// Sidebar component that takes onSectionChange as a prop
-const Sidebar = ({ onSectionChange }) => {
+const Sidebar = ({ sidebarCollapsed, handleSectionChange }) => {
   return (
-    <div className="sidebar">
+    <aside className={`sidebar ${sidebarCollapsed ? "collapsed" : ""}`}>
+      {/* Profile Section */}
       <div className="profile">
         <img
           src="https://storage.googleapis.com/a1aa/image/M1gBCSZLtSoHBF8pAWVykzTmPCbFMbNoseS94uzcDXOl394JA.jpg"
@@ -15,27 +20,41 @@ const Sidebar = ({ onSectionChange }) => {
         />
         <h2>Admin</h2>
       </div>
+
+      {/* Menu Section */}
       <div className="menu">
-        {/* Sidebar buttons that trigger section change */}
-        <button className="menu-button" onClick={() => onSectionChange('dashboard')}>
-          <i><FaTachometerAlt size={20} /></i> Dashboard
+        {/* Dashboard */}
+        <button className="menu-button" onClick={() => handleSectionChange("Dashboard")}>
+          <i><FaTachometerAlt size={20} /></i>
+          {!sidebarCollapsed && " Dashboard"}
         </button>
-        <button className="menu-button" onClick={() => onSectionChange('teacher')}>
-          <i><FaChalkboardTeacher size={20} /></i> Teacher
+
+        {/* Teacher Section */}
+        <button className="menu-button" onClick={() => handleSectionChange("Teacher")}>
+          <i><FaChalkboardTeacher size={20} /></i>
+          {!sidebarCollapsed && " Teacher"}
         </button>
-        <button className="menu-button" onClick={() => onSectionChange('student')}>
-          <i><FaUserGraduate size={20} /></i> Student
+
+        {/* Student Section */}
+        <button className="menu-button" onClick={() => handleSectionChange("Student")}>
+          <i><FaUserGraduate size={20} /></i>
+          {!sidebarCollapsed && " Student"}
         </button>
-        <button className="menu-button" onClick={() => onSectionChange('courses')}>
-          <i><FaBook size={20} /></i> Courses
+
+        {/* Courses Section */}
+        <button className="menu-button" onClick={() => handleSectionChange("Courses")}>
+          <i><FaBook size={20} /></i>
+          {!sidebarCollapsed && " Courses"}
         </button>
-        <button className="menu-button" onClick={() => onSectionChange('question')}>
-          <i><FaQuestionCircle size={20} /></i> Questions
+
+        {/* Questions Section */}
+        <button className="menu-button" onClick={() => handleSectionChange("Questions")}>
+          <i><FaQuestionCircle size={20} /></i>
+          {!sidebarCollapsed && " Questions"}
         </button>
       </div>
-    </div>
+    </aside>
   );
 };
 
 export default Sidebar;
-

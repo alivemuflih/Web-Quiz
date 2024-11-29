@@ -1,37 +1,66 @@
 import React, { useState } from "react";
-import Sidebar from "./Sidebar"; // Impor Sidebar yang benar
-import PendingTeachers from "./teacher_menu/pending-teacher"; // Konten Pending Teachers
+import Sidebar from "./Sidebar";
+import Header from "./Header";
+import Footer from "./Footer";
 import Dashboard from "./hamburger_menu/dashboard";
-import Teacher from "./hamburger_menu/teacher";
+import Teacher from "./hamburger_menu/teacher";  // Import the Teacher component
 import Student from "./hamburger_menu/student";
+import Questions from "./hamburger_menu/question";
 import Courses from "./hamburger_menu/courses";
-import Question from "./hamburger_menu/question";
+import PendingTeachers from "./teacher_menu/pending-teacher";
 import "./admin.css";
 
-const AdminPanel = () => {
-  const [activeSection, setActiveSection] = useState("dashboard"); // Default section adalah dashboard
+const Admin = () => {
+  const [section, setSection] = useState("Dashboard");
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
 
-  // Fungsi untuk mengubah bagian yang aktif
-  const handleSectionChange = (section) => {
-    setActiveSection(section); // Mengubah bagian aktif
+  const handleLogout = () => {
+    setLoggedIn(false);
   };
 
-  return (
-    <div className="app">
-      {/* Pass handleSectionChange ke Sidebar dan Teacher */}
-      <Sidebar onSectionChange={handleSectionChange} />
+  const handleSectionChange = (newSection) => {
+    setSection(newSection); // This function will change the current section
+  };
 
-      {/* Area konten utama */}
-      <div className="main-content">
-        {activeSection === "dashboard" && <Dashboard />}
-        {activeSection === "teacher" && <Teacher onSectionChange={handleSectionChange} />}
-        {activeSection === "student" && <Student />}
-        {activeSection === "courses" && <Courses />}
-        {activeSection === "question" && <Question />}
-        {activeSection === "pending-teacher" && <PendingTeachers />} {/* Menambahkan kondisi untuk pending-teacher */}
+  if (!loggedIn) {
+    return (
+      <div className="login-container">
+        <h2>Login</h2>
+        <button onClick={() => setLoggedIn(true)}>Login</button>
       </div>
+    );
+  }
+
+  return (
+    <div className={`app ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
+      {/* Header */}
+      <Header setSidebarCollapsed={setSidebarCollapsed} />
+
+      {/* Sidebar */}
+      <Sidebar
+        sidebarCollapsed={sidebarCollapsed}
+        handleSectionChange={handleSectionChange} // Passing the function as a prop
+        handleLogout={handleLogout}
+        currentSection={section}
+      />
+
+      {/* Main Content */}
+      <main>
+        <section className="content">
+          {section === "Dashboard" && <Dashboard />}
+          {section === "Teacher" && <Teacher handleSectionChange={handleSectionChange} />}
+          {section === "Student" && <Student />}
+          {section === "Courses" && <Courses />}
+          {section === "Questions" && <Questions />}
+          {section === "PendingTeachers" && <PendingTeachers />}
+        </section>
+      </main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
 
-export default AdminPanel;
+export default Admin;
