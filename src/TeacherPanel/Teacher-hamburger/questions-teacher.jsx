@@ -1,12 +1,12 @@
 import React from "react";
-import Card from "../Card";
+import Card from "../teacher-card";
 import {
   FaUserGraduate,
   FaChalkboardTeacher
 } from "react-icons/fa";
-import "../admin.css";
+import "../teacher-style.css";
 
-const Questions = ({ handleSectionChange }) => {
+const QuestionsTeacher = ({ handleSectionChange }) => {
   // Fungsi untuk menangani klik pada kartu
   const handleCardClick = (section) => {
     handleSectionChange(section); // Mengubah ke section yang dipilih
@@ -19,17 +19,17 @@ const Questions = ({ handleSectionChange }) => {
           count="2"
           icon={<FaUserGraduate />}
           colorClass="students"
-          onClick={() => handleCardClick("AddQuestions")} // Menjalankan fungsi handleCardClick
+          onClick={() => handleCardClick("AddQuiz")} // Menjalankan fungsi handleCardClick
         />
         <Card
           title="View Questions"
           count="1"
           icon={<FaChalkboardTeacher />}
           colorClass="teachers"
-          onClick={() => handleCardClick("ViewQuestion")} // Menjalankan fungsi handleCardClick
+          onClick={() => handleCardClick("ViewQuiz")} // Menjalankan fungsi handleCardClick
         />
       </div>
   );
 };
 
-export default Questions;
+export default QuestionsTeacher;

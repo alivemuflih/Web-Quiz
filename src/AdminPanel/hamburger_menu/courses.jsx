@@ -8,12 +8,10 @@ import "../admin.css";
 
 const Courses = ({ handleSectionChange }) => {
   // Fungsi untuk menangani klik pada kartu
-  const handleCardClick = (title) => {
-    alert(`You clicked on ${title}`);
-    // Menambahkan logika untuk berpindah ke bagian terkait
-    handleSectionChange(title); // Misalnya, mengubah bagian yang sedang ditampilkan
+  const handleCardClick = (section) => {
+    handleSectionChange(section); // Mengubah ke section yang dipilih
   };
-  
+
   return (
       <div className="card-container">
         <Card
@@ -21,14 +19,14 @@ const Courses = ({ handleSectionChange }) => {
           count="2"
           icon={<FaUserGraduate />}
           colorClass="students"
-          onClick={() => handleCardClick("Total Students")} // Menjalankan fungsi handleCardClick
+          onClick={() => handleCardClick("AddCourse")} // Menjalankan fungsi handleCardClick
         />
         <Card
           title="View Courses "
           count="1"
           icon={<FaChalkboardTeacher />}
           colorClass="teachers"
-          onClick={() => handleCardClick("Total Teacher")} // Menjalankan fungsi handleCardClick
+          onClick={() => handleCardClick("ViewCourse")} // Menjalankan fungsi handleCardClick
         />
       </div>
   );

@@ -20,7 +20,7 @@ const Teacher = ({ handleSectionChange }) => {
         count="2"
         icon={<FaUserGraduate />}
         colorClass="students"
-        onClick={() => handleCardClick("Teacher")} // Mengubah ke section "Teacher"
+        onClick={() => handleCardClick("TotalTeacher")} // Mengubah ke section "Teacher"
       />
       
       {/* Card untuk Total Pending Teacher */}

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-const Card = ({ title, count, icon, colorClass, onClick }) => {
+const TeacherCard = ({ title, count, icon, colorClass, onClick }) => {
   return (
     <button className={`card ${colorClass}`} onClick={onClick}>
       <div>
@@ -12,4 +12,4 @@ const Card = ({ title, count, icon, colorClass, onClick }) => {
   );
 };
 
-export default Card;
+export default TeacherCard;

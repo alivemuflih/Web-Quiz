@@ -8,6 +8,7 @@ import MataPelajaran from "./MainMenu/MataPelajaran.jsx"; //mengarah ke MataPela
 import Soal from "./MainMenu/Soal.jsx"; //mengarah ke Soal.jsx
 import Admin from "./AdminPanel/Admin.jsx"; //mengarah ke Soal.jsx
 import LoginForm from "./Login/LoginForm.jsx";
+import HomeTeacher from "./TeacherPanel/home-teacher.jsx";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/soal" element={<Soal />} /> {/* Rute untuk Soal */}
         <Route path="/Admin" element={<Admin />} /> {/* Rute untuk Admin */}
         <Route path="/LoginForm" element={<LoginForm />} />{" "}
+        <Route path="/HomeTeacher" element={<HomeTeacher />} />{" "}
       </Routes>
     </Router>
   );

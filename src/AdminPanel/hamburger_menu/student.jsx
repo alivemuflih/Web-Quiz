@@ -2,41 +2,31 @@ import React from "react";
 import Card from "../Card";
 import {
   FaUserGraduate,
-  FaChalkboardTeacher,
-  FaBook
+  FaChalkboardTeacher
 } from "react-icons/fa";
 import "../admin.css";
 
 const Student = ({ handleSectionChange }) => {
   // Fungsi untuk menangani klik pada kartu
-  const handleCardClick = (title) => {
-    alert(`You clicked on ${title}`);
-    // Menambahkan logika untuk berpindah ke bagian terkait
-    handleSectionChange(title); // Misalnya, mengubah bagian yang sedang ditampilkan
+  const handleCardClick = (section) => {
+    handleSectionChange(section); // Mengubah ke section yang dipilih
   };
   
   return (
     <div className="card-container">
     <Card
-      title="Total Teacher"
+      title="Total Student"
       count="2"
       icon={<FaUserGraduate />}
       colorClass="students"
-      onClick={() => handleCardClick("Total Students")} // Menjalankan fungsi handleCardClick
+      onClick={() => handleCardClick("TotalStudent")} // Menjalankan fungsi handleCardClick
     />
     <Card
-      title="Total Pending Teacher"
+      title="View Marks"
       count="1"
       icon={<FaChalkboardTeacher />}
       colorClass="teachers"
-      onClick={() => handleCardClick("Total Teacher")} // Menjalankan fungsi handleCardClick
-    />
-    <Card
-      title="Total Pending Teacher"
-      count="1"
-      icon={<FaBook />}
-      colorClass="courses"
-      onClick={() => handleCardClick("Total Teacher")} // Menjalankan fungsi handleCardClick
+      onClick={() => handleCardClick("ViewMarks")} // Menjalankan fungsi handleCardClick
     />
   </div>
   );

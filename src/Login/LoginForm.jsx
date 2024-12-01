@@ -13,6 +13,9 @@ const LoginForm = () => {
     // Contoh validasi login
     if (username === "admin" && password === "1234") {
       navigate("/Admin"); // Arahkan ke halaman admin
+    }
+    else if (username === "guru" && password === "123") {
+      navigate("/HomeTeacher"); // Arahkan ke halaman admin
     } else {
       alert("Username atau password salah");
     }

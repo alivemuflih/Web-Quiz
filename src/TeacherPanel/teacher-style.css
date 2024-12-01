@@ -1,0 +1,445 @@
+/* Mengatur layout umum */
+html, body {
+    height: 100%; /* Pastikan body mengisi seluruh tinggi layar */
+    margin: 0; /* Menghapus margin default */
+  }
+  
+  .app {
+    display: grid;
+    grid-template-rows: 60px 1fr 40px; /* Header, Content, Footer */
+    grid-template-columns: 250px 1fr; /* Sidebar dan Content */
+    width: 100%; /* Tambahkan width untuk memastikan grid penuh */
+    grid-template-areas:
+      "header header"
+      "sidebar content"
+      "sidebar footer";
+    height: 100vh;
+    gap: 0;
+    transition: grid-template-columns 0.3s;
+  }
+  
+  .app.sidebar-collapsed {
+    grid-template-columns: 80px 1fr; /* Sidebar kecil dan konten utama */
+    grid-template-areas:
+      "header header"
+      "sidebar content"
+      "sidebar footer";
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    background-color: #333333;
+    color: white;
+    width: 250px;
+    padding: 10px;
+    grid-area: sidebar; /* Tetapkan sidebar ke area grid */
+    height: auto; /* Tinggi mengikuti konten */
+    overflow-y: auto; /* Tambahkan scroll jika konten terlalu panjang */
+    transition: 0.3s;
+  }
+  
+  .sidebar.collapsed {
+    width: 80px; /* Lebar sidebar ketika collapsed */
+  }
+  
+  .profile {
+    text-align: center;
+    margin-bottom: 20px;
+    transition: 0.3s;
+    margin-top: 20px;
+  }
+  
+  .profile img {
+    border-radius: 50%;
+    transition: width 0.3s, height 0.3s;
+    width: 80px;
+    height: 80px;
+  }
+  
+  .profile h2 {
+    font-size: 18px;
+    transition: opacity 0.3s;
+  }
+  
+  /* Ketika sidebar collapsed */
+  .sidebar.collapsed .profile {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .sidebar.collapsed .profile img {
+    width: 40px; /* Ukuran gambar profil lebih kecil */
+    height: 40px;
+  }
+  
+  .sidebar.collapsed .profile h2 {
+    opacity: 0; /* Sembunyikan nama ketika collapsed */
+  }
+  
+  /* Mengubah pengaturan tombol di sidebar */
+  .menu button {
+    background: none;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Memastikan teks dan ikon sejajar vertikal */
+    gap: 10px; /* Memberikan jarak antar ikon dan teks */
+  }
+  
+  .sidebar .menu button i {
+    font-size: 24px; /* Ukuran ikon */
+  }
+  
+  .sidebar .menu button:hover {
+    background-color: #04bbee;
+  }
+  
+  /* Header */
+  .header1 {
+    grid-area: header;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #212529;
+    color: white;
+    padding: 10px 20px;
+    height: 60px;
+  }
+  
+  .header1 h1 {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .header1 .logout {
+    background-color: #17a2b8;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Main Content */
+  main {
+    grid-area: content; /* Menempatkan main content di grid */
+    padding: 10px 0px; /* Mengurangi margin untuk konten */
+    overflow-y: auto; /* Membuat konten scrollable jika diperlukan */
+    flex-grow: 1; /* Agar konten mengisi ruang yang tersisa */
+    transition: margin-left 0.3s, margin-right 0.3s;
+  }
+  
+  
+  /* Konten menyesuaikan ketika sidebar collapsed */
+  .app.sidebar-collapsed main {
+    margin-left: 10px; /* Mengurangi margin kiri ketika sidebar tersembunyi */
+    margin-right: 30px; /* Menghindari ruang kosong di sebelah kanan */
+  }
+  
+  /* Card Container */
+  .card-container {
+    display: flex;
+    width: 1200px;
+    flex-wrap: wrap;
+    gap: 20px; /* Jarak antar kartu */
+    justify-content: flex-start; /* Atur kartu agar mulai dari kiri */
+  }
+
+  .card-container.sidebar.collapsed {
+    display: flex;
+    width: 1400px;
+    flex-wrap: wrap;
+    gap: 20px; /* Jarak antar kartu */
+    justify-content: flex-start; /* Atur kartu agar mulai dari kiri */
+  }
+  
+  /* Make sure the cards stretch to fill the container */
+  .card {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+    padding: 20px;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .card:focus {
+    outline: none;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .icon {
+    font-size: 35px;
+  }
+  
+  .card h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .card .count {
+    font-size: 24px;
+  }
+  
+  .card.students {
+    background-color: #17a2b8;
+  }
+  
+  .card.teachers {
+    background-color: #6f42c1;
+  }
+  
+  .card.courses {
+    background-color: #fd7e14;
+  }
+  
+  .card.questions {
+    background-color: #6c757d;
+  }
+
+/* Container untuk memberi ruang */
+.container {
+    margin: 0px;
+    width: 1200px;
+    font-family: 'Arial', sans-serif; /* Menetapkan font yang bersih */
+  }
+  
+  /* Panel dengan desain modern */
+  .panel {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Menjaga elemen di dalam tetap teratur */
+  }
+  
+  /* Heading panel dengan warna menarik */
+  .panel-heading {
+    background-color: #007bff;
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+    text-transform: uppercase; /* Memberi kesan lebih tegas */
+    letter-spacing: 1px; /* Menambahkan spasi huruf untuk kesan modern */
+    border-bottom: 2px solid #0056b3; /* Warna yang lebih gelap untuk border */
+  }
+  
+  /* Tabel lebih modern dan bersih */
+  .table {
+    margin: 20px 0;
+    width: 100%;
+    border-collapse: collapse; /* Menghindari jarak antara border */
+  }
+  
+  .table thead {
+    background-color: #f8f9fa; /* Latar belakang ringan untuk header */
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .table th, .table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table tbody tr {
+    transition: background-color 0.3s ease-in-out; /* Efek transisi saat hover */
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #f1f1f1; /* Menyorot baris saat hover */
+  }
+  
+  .table img {
+    border-radius: 50%;
+    max-width: 40px; /* Ukuran gambar lebih kecil dan proporsional */
+  }
+  
+  /* Tombol dengan desain yang lebih modern */
+  .btn {
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: all 0.3s ease; /* Transisi untuk efek hover */
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+
+  .btn-primary-delete {
+    background-color: #ff0000;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3; /* Efek hover untuk tombol biru */
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333; /* Efek hover untuk tombol merah */
+  }
+  
+  /* Menambahkan margin dan meningkatkan keterbacaan judul */
+  h6 {
+    text-align: center;
+    margin: 0;
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: #ffffff;
+  }  
+  
+  /*Add Course */
+  .course {
+    width: 1200px;
+    margin-left: 0px;
+    padding: 20px;
+  }
+  
+  .course h2 {
+    font-size: 30px;
+    color: blue;
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  
+  .form-group button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* add questions */
+  .add-questions {
+    width: 1200px;
+    margin-left: 0px;
+    padding: 20px;
+  }
+  
+  .add-questions h2 {
+    font-size: 30px;
+    color: blue;
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form-group .correct-option {
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-group .correct-option input {
+    width: auto;
+    margin-right: 10px;
+  }
+  
+  .form-group .correct-option label {
+    margin: 0;
+  }
+  
+  .form-group button {
+    background-color: #00aaff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .form-button {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .form-button button {
+    background-color: #00aaff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }  
+
+  /* Footer */
+  .footer {
+    grid-area: footer; /* Area footer di grid */
+    background-color: #c90b0b;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    z-index: 10;
+    display: flex; /* Gunakan flexbox */
+    align-items: center; /* Tengah secara vertikal */
+    justify-content: center; /* Tengah secara horizontal */
+    transition: all 0.3s; /* Animasi transisi untuk perubahan */
+  }

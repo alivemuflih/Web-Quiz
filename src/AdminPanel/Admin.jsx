@@ -9,11 +9,20 @@ import Questions from "./hamburger_menu/question";
 import Courses from "./hamburger_menu/courses";
 import PendingTeachers from "./teacher_menu/pending-teacher";
 import "./admin.css";
+import AddCourse from "./courses_menu/add-courses";
+import AddQuestions from "./questions_menu/add-question";
+import TotalTeacher from "./teacher_menu/total-teacher";
+import TotalStudent from "./student_menu/total-student";
+import ViewQuestion from "./questions_menu/view-question";
+import ViewCourse from "./courses_menu/view-course";
+import ViewMarks from "./student_menu/view-marks";
 
 const Admin = () => {
   const [section, setSection] = useState("Dashboard");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [loggedIn, setLoggedIn] = useState(true);
+  const [examCourses, setExamCourses] = useState([]); // Untuk Exams
+  const [quizCourses, setQuizCourses] = useState([]); // Untuk Quiz
 
   const handleLogout = () => {
     setLoggedIn(false);
@@ -50,10 +59,30 @@ const Admin = () => {
         <section className="content">
           {section === "Dashboard" && <Dashboard />}
           {section === "Teacher" && <Teacher handleSectionChange={handleSectionChange} />}
-          {section === "Student" && <Student />}
-          {section === "Courses" && <Courses />}
-          {section === "Questions" && <Questions />}
+          {section === "Student" && <Student handleSectionChange={handleSectionChange} />}
+          {section === "Courses" && <Courses handleSectionChange={handleSectionChange} />}
+          {section === "Questions" && <Questions handleSectionChange={handleSectionChange} />}
           {section === "PendingTeachers" && <PendingTeachers />}
+          {section === "TotalTeacher" && <TotalTeacher />}
+          {section === "TotalStudent" && <TotalStudent />}
+          {section === "ViewMarks" && <ViewMarks />}
+          {section === "AddCourse" && (
+            <AddCourse 
+              examCourses={examCourses}
+              setExamCourses={setExamCourses}
+              onSectionChange={handleSectionChange}
+            />
+          )}
+          {section === "ViewCourse" && (<ViewCourse examCourses={examCourses} setExamCourses={setExamCourses} />)}
+          {section === "AddQuestions" && (
+            <AddQuestions 
+              quizCourses={quizCourses} 
+              setQuizCourses={setQuizCourses}
+              examsCourses={examCourses} 
+              onSectionChange={handleSectionChange} 
+            />
+          )}
+          {section === "ViewQuestion" && (<ViewQuestion quizCourses={quizCourses} setQuizCourses={setQuizCourses} /> )}
         </section>
       </main>
 
