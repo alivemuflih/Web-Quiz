@@ -1,24 +1,23 @@
 import React from "react";
 
-const ViewQuestion = ({ quizCourses, setQuizCourses }) => {
+const ViewQuestion = ({ quizCourses, setQuizCourses, onViewQuiz }) => {
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this quiz?")) {
       const updatedCourses = quizCourses.filter((course) => course.id !== id);
       setQuizCourses(updatedCourses);
     }
   };
-
   return (
     <div className="container">
       <div className="panel panel-primary">
         <div className="panel-heading">
           <h6 className="panel-title">Quiz Courses</h6>
         </div>
-        <table className="table table-hover" id="dev-table">
+        <table className="table table-hover">
           <thead>
             <tr>
               <th>Course Name</th>
-              <th>Marks</th>
+              <th>Total Marks</th>
               <th>View Quiz</th>
               <th>Delete</th>
             </tr>
@@ -32,7 +31,7 @@ const ViewQuestion = ({ quizCourses, setQuizCourses }) => {
                   <td>
                     <button
                       className="btn btn-primary"
-                      onClick={() => handleDelete(course.id)}
+                      onClick={() => onViewQuiz(course)}
                     >
                       View
                     </button>

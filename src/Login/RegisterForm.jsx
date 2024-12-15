@@ -15,7 +15,7 @@ const RegisterForm = () => {
     if (username && email && password && gurusiswa) {
       // Lakukan pendaftaran di sini
       alert("Pendaftaran berhasil!");
-      navigate("/Siswa"); // Mengarahkan ke halaman siswa setelah pendaftaran
+      navigate("/Isi"); // Mengarahkan ke halaman siswa setelah pendaftaran
     } else {
       alert("Semua field harus diisi!");
     }

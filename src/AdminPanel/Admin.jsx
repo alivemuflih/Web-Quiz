@@ -16,6 +16,7 @@ import TotalStudent from "./student_menu/total-student";
 import ViewQuestion from "./questions_menu/view-question";
 import ViewCourse from "./courses_menu/view-course";
 import ViewMarks from "./student_menu/view-marks";
+import DetailQuestion from "./questions_menu/detail-question"; // Import the DetailQuiz component
 
 const Admin = () => {
   const [section, setSection] = useState("Dashboard");
@@ -23,6 +24,7 @@ const Admin = () => {
   const [loggedIn, setLoggedIn] = useState(true);
   const [examCourses, setExamCourses] = useState([]); // Untuk Exams
   const [quizCourses, setQuizCourses] = useState([]); // Untuk Quiz
+  const [selectedQuiz, setSelectedQuiz] = useState(null); // State untuk quiz yang dipilih
 
   const handleLogout = () => {
     setLoggedIn(false);
@@ -82,7 +84,22 @@ const Admin = () => {
               onSectionChange={handleSectionChange} 
             />
           )}
-          {section === "ViewQuestion" && (<ViewQuestion quizCourses={quizCourses} setQuizCourses={setQuizCourses} /> )}
+          {section === "ViewQuestion" && (
+            <ViewQuestion 
+              quizCourses={quizCourses} 
+              setQuizCourses={setQuizCourses} 
+              onViewQuiz={(quiz) => {
+                setSelectedQuiz(quiz); // Simpan quiz yang dipilih
+                handleSectionChange("DetailQuiz"); // Navigasi ke DetailQuiz
+              }}
+            />
+          )}
+          {section === "DetailQuiz" && (
+            <DetailQuestion 
+              quiz={selectedQuiz} 
+              onBack={() => handleSectionChange("ViewQuestion")} // Fungsi kembali ke ViewQuestion
+            />
+          )}
         </section>
       </main>
 

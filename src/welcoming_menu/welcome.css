@@ -52,18 +52,25 @@ body, html {
     margin: 20px 0;
 }
 
+.button-container{
+    display: flex;
+    flex-direction: column;
+    margin-left: 120px;
+}
+
 .btn {
-    display: inline-block;
-    padding: 15px 30px;
-    background-color: #0a61b8;
-    color: white;
-    font-size: 1em;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
     text-decoration: none;
+    display: block;
+    width: 200px;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #033eff;
+    color: #fff7f7;
 }
 
 .btn:hover {
-    background-color: #c0392b;
+    background-color: #dc3030;
 }

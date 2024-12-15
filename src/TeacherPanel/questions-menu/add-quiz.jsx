@@ -12,9 +12,9 @@ const AddQuiz = ({ quizCourses, setQuizCourses, examsCourses, onSectionChange })
   });
   const [correctOption, setCorrectOption] = useState("");
   const [token, setToken] = useState("");
-  const [questions, setQuestions] = useState([]); // State untuk menyimpan soal yang dimasukkan
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Function to generate a token
   const generateToken = () => {
     return Math.random().toString(36).substr(2, 8).toUpperCase();
   };
@@ -22,35 +22,56 @@ const AddQuiz = ({ quizCourses, setQuizCourses, examsCourses, onSectionChange })
   const handleSave = (e) => {
     e.preventDefault();
 
+    // Cek apakah semua field telah diisi
     if (!course || !question || !marks || !correctOption) {
       alert("Please fill in all fields before submitting.");
       return;
     }
 
+    // Generate a new token when the quiz is created
     const newToken = generateToken();
+    setToken(newToken); // Store the generated token in state
 
-    // Menambahkan soal baru ke dalam daftar soal
     const newQuestion = {
       questionText: question,
       options,
       correctOption,
-      marks,
+      marks: parseInt(marks),
     };
 
-    setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
+    // Cari apakah kursus sudah ada
+    const existingCourseIndex = quizCourses.findIndex((courseItem) => courseItem.id === parseInt(course));
 
-    // Mengupdate course dengan soal yang baru
-    const newCourse = {
-      id: course,
-      courseName: examsCourses.find((courseItem) => courseItem.id === parseInt(course))?.courseName,
-      totalQuestions: questions.length + 1, // Menambahkan jumlah soal
-      totalMarks: marks,
-      token: newToken,
-    };
+    if (existingCourseIndex !== -1) {
+      // Jika kursus sudah ada, tambahkan soal ke kursus tersebut
+      const updatedQuizCourses = [...quizCourses];
+      updatedQuizCourses[existingCourseIndex].questions.push(newQuestion);
+      updatedQuizCourses[existingCourseIndex].totalQuestions = updatedQuizCourses[existingCourseIndex].questions.length;
+      updatedQuizCourses[existingCourseIndex].totalMarks = updatedQuizCourses[existingCourseIndex].questions.reduce(
+        (total, q) => total + q.marks,
+        0
+      );
+      // Menambahkan token di kursus yang ada
+      updatedQuizCourses[existingCourseIndex].token = newToken;
+      setQuizCourses(updatedQuizCourses);
+    } else {
+      // Jika kursus belum ada, buat kursus baru dengan soal pertama
+      const newCourse = {
+        id: parseInt(course),
+        courseName: examsCourses.find((courseItem) => courseItem.id === parseInt(course))?.courseName,
+        totalQuestions: 1,
+        totalMarks: parseInt(marks),
+        questions: [newQuestion],
+        token: newToken, // Menambahkan token ke kursus baru
+      };
+      setQuizCourses([...quizCourses, newCourse]);
+    }
 
-    setQuizCourses((prevCourses) => [...prevCourses, newCourse]);
-    setToken(newToken);
+    // Set isSubmitted to true after saving the question
     setIsSubmitted(true);
+
+    // Reset input fields setelah soal ditambahkan
+    handleAddQuestion();
     onSectionChange("ViewQuiz");
   };
 
@@ -63,7 +84,7 @@ const AddQuiz = ({ quizCourses, setQuizCourses, examsCourses, onSectionChange })
   };
 
   const handleAddQuestion = () => {
-    // Reset input fields for adding another question
+    // Reset input fields untuk menambah soal baru setelah soal disimpan
     setQuestion("");
     setMarks("");
     setOptions({
@@ -73,6 +94,53 @@ const AddQuiz = ({ quizCourses, setQuizCourses, examsCourses, onSectionChange })
       option4: "",
     });
     setCorrectOption("");
+  };
+
+  const handleAddAnotherQuestion = () => {
+    // Cek apakah semua field telah diisi sebelum menambah soal berikutnya
+    if (!course || !question || !marks || !correctOption) {
+      alert("Please fill in all fields before adding another question.");
+      return;
+    }
+
+    const newQuestion = {
+      questionText: question,
+      options,
+      correctOption,
+      marks: parseInt(marks),
+    };
+
+    // Tambahkan soal ke quizCourses, tanpa reset state
+    const existingCourseIndex = quizCourses.findIndex((courseItem) => courseItem.id === parseInt(course));
+
+    if (existingCourseIndex !== -1) {
+      // Jika kursus sudah ada, tambahkan soal ke kursus tersebut
+      const updatedQuizCourses = [...quizCourses];
+      updatedQuizCourses[existingCourseIndex].questions.push(newQuestion);
+      updatedQuizCourses[existingCourseIndex].totalQuestions = updatedQuizCourses[existingCourseIndex].questions.length;
+      updatedQuizCourses[existingCourseIndex].totalMarks = updatedQuizCourses[existingCourseIndex].questions.reduce(
+        (total, q) => total + q.marks,
+        0
+      );
+      setQuizCourses(updatedQuizCourses);
+    } else {
+      // Jika kursus belum ada, buat kursus baru dengan soal pertama
+      const newCourse = {
+        id: parseInt(course),
+        courseName: examsCourses.find((courseItem) => courseItem.id === parseInt(course))?.courseName,
+        totalQuestions: 1,
+        totalMarks: parseInt(marks),
+        questions: [newQuestion],
+        token: generateToken(), // Menambahkan token ke kursus baru
+      };
+      setQuizCourses([...quizCourses, newCourse]);
+    }
+
+    // Set isSubmitted to false so user can continue adding questions
+    setIsSubmitted(false);
+
+    // Reset input fields setelah soal ditambahkan
+    handleAddQuestion();
   };
 
   return (
@@ -166,7 +234,7 @@ const AddQuiz = ({ quizCourses, setQuizCourses, examsCourses, onSectionChange })
           </div>
 
           <div className="form-button">
-            <button type="button" onClick={handleAddQuestion}>Add Another Question</button>
+            <button type="button" onClick={handleAddAnotherQuestion}>Add Another Question</button>
             <button type="submit">Save Question</button>
           </div>
         </form>

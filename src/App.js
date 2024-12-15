@@ -9,6 +9,7 @@ import Soal from "./MainMenu/Soal.jsx"; //mengarah ke Soal.jsx
 import Admin from "./AdminPanel/Admin.jsx"; //mengarah ke Soal.jsx
 import LoginForm from "./Login/LoginForm.jsx";
 import HomeTeacher from "./TeacherPanel/home-teacher.jsx";
+import Isi from "./SiswaPanel/isi.jsx";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/Admin" element={<Admin />} /> {/* Rute untuk Admin */}
         <Route path="/LoginForm" element={<LoginForm />} />{" "}
         <Route path="/HomeTeacher" element={<HomeTeacher />} />{" "}
+        <Route path="/Isi" element={<Isi />} />{" "}
       </Routes>
     </Router>
   );

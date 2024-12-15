@@ -1,7 +1,7 @@
 import React from "react";
-import { FaCopy } from "react-icons/fa"; 
+import { FaCopy } from "react-icons/fa";
 
-const ViewQuiz = ({ quizCourses, setQuizCourses }) => {
+const ViewQuiz = ({ quizCourses, setQuizCourses, onViewQuiz }) => {
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this quiz?")) {
       const updatedCourses = quizCourses.filter((course) => course.id !== id);
@@ -9,7 +9,6 @@ const ViewQuiz = ({ quizCourses, setQuizCourses }) => {
     }
   };
 
-  // Fungsi untuk menyalin token ke clipboard
   const handleCopy = (token) => {
     navigator.clipboard.writeText(token).then(() => {
       alert("Token copied to clipboard!");
@@ -28,7 +27,7 @@ const ViewQuiz = ({ quizCourses, setQuizCourses }) => {
           <thead>
             <tr>
               <th>Course Name</th>
-              <th>Marks</th>
+              <th>Total Marks</th>
               <th>Token</th>
               <th>View Quiz</th>
               <th>Delete</th>
@@ -42,15 +41,15 @@ const ViewQuiz = ({ quizCourses, setQuizCourses }) => {
                   <td>{course.totalMarks}</td>
                   <td>
                     {course.token}{" "}
-                    <FaCopy 
+                    <FaCopy
                       style={{ cursor: "pointer", marginLeft: "10px" }}
-                      onClick={() => handleCopy(course.token)} 
+                      onClick={() => handleCopy(course.token)}
                     />
                   </td>
                   <td>
                     <button
                       className="btn btn-primary"
-                      onClick={() => handleDelete(course.id)}
+                      onClick={() => onViewQuiz(course)} // Trigger the quiz selection
                     >
                       View
                     </button>

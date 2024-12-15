@@ -10,6 +10,7 @@ import Exams from "./exams-menu/add-exams";
 import AddQuiz from "./questions-menu/add-quiz";
 import ViewExams from "./exams-menu/view-exams";
 import ViewQuiz from "./questions-menu/view-quiz";
+import DetailQuiz from "./questions-menu/details-quiz";
 
 const HomeTeacher = () => {
   const [section, setSection] = useState("DashboardTeacher");
@@ -17,6 +18,7 @@ const HomeTeacher = () => {
   const [loggedIn, setLoggedIn] = useState(true);
   const [examCourses, setExamCourses] = useState([]); // Untuk Exams
   const [quizCourses, setQuizCourses] = useState([]); // Untuk Quiz
+  const [selectedQuiz, setSelectedQuiz] = useState(null); // State untuk menyimpan quiz yang dipilih
 
   const handleLogout = () => {
     setLoggedIn(false);
@@ -24,6 +26,11 @@ const HomeTeacher = () => {
 
   const handleSectionChange = (newSection) => {
     setSection(newSection);
+  };
+
+  const handleQuizSelection = (quiz) => {
+    setSelectedQuiz(quiz); // Mengatur quiz yang dipilih
+    setSection("DetailQuiz"); // Pindah ke bagian DetailQuiz
   };
 
   if (!loggedIn) {
@@ -52,8 +59,12 @@ const HomeTeacher = () => {
       <main>
         <section className="content">
           {section === "DashboardTeacher" && <DashboardTeacher />}
-          {section === "TeacherExams" && (<ExamsTeacher handleSectionChange={handleSectionChange} />)}
-          {section === "TeacherQuestions" && (<QuestionsTeacher handleSectionChange={handleSectionChange} />)}
+          {section === "TeacherExams" && (
+            <ExamsTeacher handleSectionChange={handleSectionChange} />
+          )}
+          {section === "TeacherQuestions" && (
+            <QuestionsTeacher handleSectionChange={handleSectionChange} />
+          )}
           {section === "Exams" && (
             <Exams
               examCourses={examCourses}
@@ -61,16 +72,30 @@ const HomeTeacher = () => {
               onSectionChange={handleSectionChange}
             />
           )}
-          {section === "ViewExams" && (<ViewExams examCourses={examCourses} setExamCourses={setExamCourses} />)}
-          {section === "AddQuiz" && ( 
-            <AddQuiz 
-              quizCourses={quizCourses} 
-              setQuizCourses={setQuizCourses}
-              examsCourses={examCourses} 
-              onSectionChange={handleSectionChange} 
-            /> 
+          {section === "ViewExams" && (
+            <ViewExams examCourses={examCourses} setExamCourses={setExamCourses} />
           )}
-          {section === "ViewQuiz" && ( <ViewQuiz quizCourses={quizCourses} setQuizCourses={setQuizCourses} /> )}
+          {section === "AddQuiz" && (
+            <AddQuiz
+              quizCourses={quizCourses}
+              setQuizCourses={setQuizCourses}
+              examsCourses={examCourses}
+              onSectionChange={handleSectionChange}
+            />
+          )}
+          {section === "ViewQuiz" && (
+            <ViewQuiz 
+              quizCourses={quizCourses} 
+              setQuizCourses={setQuizCourses} 
+              onViewQuiz={handleQuizSelection}
+            />
+          )}
+          {section === "DetailQuiz" && (
+            <DetailQuiz
+              quiz={selectedQuiz}
+              onBack={() => handleSectionChange("ViewQuiz")}
+            />
+          )}
         </section>
       </main>
 

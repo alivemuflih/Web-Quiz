@@ -429,6 +429,92 @@ html, body {
     cursor: pointer;
   }  
 
+/* Styling untuk container utama */
+.detail-question-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.course-title {
+  text-align: center;
+  color: #333;
+  font-size: 2em;
+  margin-bottom: 30px;
+}
+
+/* Styling untuk tombol kembali */
+.back-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 30px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #45a049;
+}
+
+/* Styling untuk daftar soal */
+.questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Styling untuk setiap card soal */
+.question-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.question-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.question-title {
+  font-size: 1.5em;
+  color: #333;
+}
+
+.marks {
+  font-size: 1.2em;
+  color: #555;
+}
+
+.options {
+  margin-top: 10px;
+}
+
+.options h4 {
+  font-size: 1.1em;
+  color: #444;
+}
+
+.option-item {
+  padding: 5px 0;
+  font-size: 1em;
+  color: #333;
+  list-style-type: none;
+}
+
+.correct-option {
+  font-weight: bold;
+  color: #4CAF50;
+  margin-top: 10px;
+}
+
   /* Footer */
   .footer {
     grid-area: footer; /* Area footer di grid */

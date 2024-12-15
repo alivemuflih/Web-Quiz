@@ -20,7 +20,10 @@ const Welcome = () => {
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, doloremque? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem, id?
         </p>
         {/* Use a button with an onClick to trigger navigation */}
-        <button onClick={handleClick} className="btn">Mulai Bermain</button>
+        <div className="button-container">
+          <button onClick={handleClick} className="btn">Mulai Bermain</button>
+          <button onClick={handleClick} className="btn">Aku Sudah Punya Akun</button>
+        </div>
       </div>
     </div>
   );
