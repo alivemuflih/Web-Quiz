@@ -11,14 +11,42 @@ const RegisterForm = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    // Contoh validasi pendaftaran
-    if (username && email && password && gurusiswa) {
-      // Lakukan pendaftaran di sini
-      alert("Pendaftaran berhasil!");
-      navigate("/Isi"); // Mengarahkan ke halaman siswa setelah pendaftaran
-    } else {
+
+    // Validasi sederhana
+    if (!username || !email || !password || !gurusiswa) {
       alert("Semua field harus diisi!");
+      return;
     }
+
+    if (!["guru", "siswa"].includes(gurusiswa.toLowerCase())) {
+      alert('Role harus "guru" atau "siswa".');
+      return;
+    }
+
+    fetch(`${process.env.REACT_APP_API_URL}/api/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, email, password, gurusiswa }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message === "Pendaftaran berhasil!") {
+          alert("Pendaftaran berhasil!");
+          
+          // Redirect berdasarkan role yang dipilih
+          if (gurusiswa.toLowerCase() === "guru") {
+            navigate("/HomeTeacher");  // Mengarahkan ke halaman home guru
+          } else {
+            navigate("/Isi");  // Mengarahkan ke halaman home siswa
+          }
+        } else {
+          alert(data.message || "Pendaftaran gagal!");
+        }
+      })
+      .catch((error) => {
+        console.error("Terjadi kesalahan: ", error);
+        alert("Terjadi kesalahan saat registrasi.");
+      });
   };
 
   return (
@@ -29,31 +57,34 @@ const RegisterForm = () => {
           placeholder="Username"
           className="input-field"
           value={username}
-          onChange={(e) => setUsername(e.target.value)} // Mengatur state username
+          onChange={(e) => setUsername(e.target.value)}
         />
         <input
           type="email"
           placeholder="Email"
           className="input-field"
           value={email}
-          onChange={(e) => setEmail(e.target.value)} // Mengatur state email
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="Password"
           className="input-field"
           value={password}
-          onChange={(e) => setPassword(e.target.value)} // Mengatur state password
+          onChange={(e) => setPassword(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Guru / Siswa"
+        <select
           className="input-field"
           value={gurusiswa}
-          onChange={(e) => setGuruSiswa(e.target.value)} // Mengatur state guru/siswa
-        />
-        <hr className="divider1" />
-        <button type="submit" className="submit-button">Daftar</button>
+          onChange={(e) => setGuruSiswa(e.target.value)}
+        >
+          <option value="">Pilih Role</option>
+          <option value="guru">Guru</option>
+          <option value="siswa">Siswa</option>
+        </select>
+        <button type="submit" className="submit-button">
+          Daftar
+        </button>
       </div>
     </form>
   );
