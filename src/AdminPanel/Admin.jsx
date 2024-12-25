@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import Footer from "./Footer";
 import Dashboard from "./hamburger_menu/dashboard";
-import Teacher from "./hamburger_menu/teacher";  // Import the Teacher component
+import Teacher from "./hamburger_menu/teacher";
 import Student from "./hamburger_menu/student";
 import Questions from "./hamburger_menu/question";
 import Courses from "./hamburger_menu/courses";
@@ -16,22 +16,53 @@ import TotalStudent from "./student_menu/total-student";
 import ViewQuestion from "./questions_menu/view-question";
 import ViewCourse from "./courses_menu/view-course";
 import ViewMarks from "./student_menu/view-marks";
-import DetailQuestion from "./questions_menu/detail-question"; // Import the DetailQuiz component
+import DetailQuestion from "./questions_menu/detail-question";
 
 const Admin = () => {
   const [section, setSection] = useState("Dashboard");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [loggedIn, setLoggedIn] = useState(true);
-  const [examCourses, setExamCourses] = useState([]); // Untuk Exams
-  const [quizCourses, setQuizCourses] = useState([]); // Untuk Quiz
-  const [selectedQuiz, setSelectedQuiz] = useState(null); // State untuk quiz yang dipilih
+  const [examCourses, setExamCourses] = useState([]);
+  const [quizCourses, setQuizCourses] = useState([]);
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
 
   const handleLogout = () => {
     setLoggedIn(false);
   };
 
   const handleSectionChange = (newSection) => {
-    setSection(newSection); // This function will change the current section
+    setSection(newSection);
+  };
+
+  const handleDeleteQuestion = (questionIndex) => {
+    if (!selectedQuiz) return;
+
+    const updatedQuestions = selectedQuiz.questions.filter((_, index) => index !== questionIndex);
+    const updatedQuiz = { ...selectedQuiz, questions: updatedQuestions };
+
+    const updatedQuizCourses = quizCourses.map((quiz) =>
+      quiz.id === updatedQuiz.id ? updatedQuiz : quiz
+    );
+
+    setQuizCourses(updatedQuizCourses);
+    setSelectedQuiz(updatedQuiz);
+  };
+
+  const handleEditQuestion = (questionIndex, updatedQuestion) => {
+    if (!selectedQuiz) return;
+
+    const updatedQuestions = selectedQuiz.questions.map((question, index) =>
+      index === questionIndex ? updatedQuestion : question
+    );
+
+    const updatedQuiz = { ...selectedQuiz, questions: updatedQuestions };
+
+    const updatedQuizCourses = quizCourses.map((quiz) =>
+      quiz.id === updatedQuiz.id ? updatedQuiz : quiz
+    );
+
+    setQuizCourses(updatedQuizCourses);
+    setSelectedQuiz(updatedQuiz);
   };
 
   if (!loggedIn) {
@@ -45,18 +76,13 @@ const Admin = () => {
 
   return (
     <div className={`app ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
-      {/* Header */}
       <Header setSidebarCollapsed={setSidebarCollapsed} />
-
-      {/* Sidebar */}
       <Sidebar
         sidebarCollapsed={sidebarCollapsed}
-        handleSectionChange={handleSectionChange} // Passing the function as a prop
+        handleSectionChange={handleSectionChange}
         handleLogout={handleLogout}
         currentSection={section}
       />
-
-      {/* Main Content */}
       <main>
         <section className="content">
           {section === "Dashboard" && <Dashboard />}
@@ -69,41 +95,43 @@ const Admin = () => {
           {section === "TotalStudent" && <TotalStudent />}
           {section === "ViewMarks" && <ViewMarks />}
           {section === "AddCourse" && (
-            <AddCourse 
+            <AddCourse
               examCourses={examCourses}
               setExamCourses={setExamCourses}
               onSectionChange={handleSectionChange}
             />
           )}
-          {section === "ViewCourse" && (<ViewCourse examCourses={examCourses} setExamCourses={setExamCourses} />)}
+          {section === "ViewCourse" && (
+            <ViewCourse examCourses={examCourses} setExamCourses={setExamCourses} />
+          )}
           {section === "AddQuestions" && (
-            <AddQuestions 
-              quizCourses={quizCourses} 
+            <AddQuestions
+              quizCourses={quizCourses}
               setQuizCourses={setQuizCourses}
-              examsCourses={examCourses} 
-              onSectionChange={handleSectionChange} 
+              examsCourses={examCourses}
+              onSectionChange={handleSectionChange}
             />
           )}
           {section === "ViewQuestion" && (
-            <ViewQuestion 
-              quizCourses={quizCourses} 
-              setQuizCourses={setQuizCourses} 
+            <ViewQuestion
+              quizCourses={quizCourses}
+              setQuizCourses={setQuizCourses}
               onViewQuiz={(quiz) => {
-                setSelectedQuiz(quiz); // Simpan quiz yang dipilih
-                handleSectionChange("DetailQuiz"); // Navigasi ke DetailQuiz
+                setSelectedQuiz(quiz);
+                handleSectionChange("DetailQuiz");
               }}
             />
           )}
           {section === "DetailQuiz" && (
-            <DetailQuestion 
-              quiz={selectedQuiz} 
-              onBack={() => handleSectionChange("ViewQuestion")} // Fungsi kembali ke ViewQuestion
+            <DetailQuestion
+              quiz={selectedQuiz}
+              onBack={() => handleSectionChange("ViewQuestion")}
+              onDelete={handleDeleteQuestion}
+              onEdit={handleEditQuestion} // Tambahkan fungsi onEdit
             />
           )}
         </section>
       </main>
-
-      {/* Footer */}
       <Footer />
     </div>
   );
