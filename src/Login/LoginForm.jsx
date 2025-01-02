@@ -37,7 +37,7 @@ const LoginForm = () => {
               if (data.role === "guru") {
                 navigate("/HomeTeacher"); // Pengalihan ke halaman guru
               } else if (data.role === "siswa") {
-                navigate("/Isi"); // Pengalihan ke halaman siswa
+                navigate("/HomeSiswa"); // Pengalihan ke halaman siswa
               }
             } else {
               alert(data.message || "Login gagal!"); // Jika login gagal

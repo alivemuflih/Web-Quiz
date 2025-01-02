@@ -37,7 +37,7 @@ const RegisterForm = () => {
           if (gurusiswa.toLowerCase() === "guru") {
             navigate("/HomeTeacher");  // Mengarahkan ke halaman home guru
           } else {
-            navigate("/Isi");  // Mengarahkan ke halaman home siswa
+            navigate("/HomeSiswa");  // Mengarahkan ke halaman home siswa
           }
         } else {
           alert(data.message || "Pendaftaran gagal!");

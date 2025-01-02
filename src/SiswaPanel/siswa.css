@@ -4,60 +4,87 @@ body {
     padding: 0;
     background-color: #f5f5f5;
 }
+
+/* Home */
+/* Navbar Styles */
+/* Navbar Styles */
 .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .navbar .logo {
-    font-size: 24px;
-    font-weight: 700;
-    color: #6a1b9a;
+  font-size: 24px;
+  font-weight: 700;
+  color: #6a1b9a;
 }
-.navbar .search-bar {
-    display: flex;
-    align-items: center;
-    background-color: #f1f1f1;
-    border-radius: 20px;
-    padding: 5px 10px;
-}
-.navbar .search-bar input {
-    border: none;
-    background: none;
-    outline: none;
-    padding: 5px;
-    font-size: 16px;
-}
-.navbar .search-bar i {
-    color: #888;
-}
+
+/* Nav Links */
 .navbar .nav-links {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  margin-right: auto; /* Membuat navbar link lebih ke kiri */
 }
+
 .navbar .nav-links a {
-    margin: 0 10px;
-    color: #333;
-    text-decoration: none;
-    font-size: 16px;
+  margin: 0 10px;
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
 }
+
 .navbar .nav-links a.active {
-    color: #6a1b9a;
-    border-bottom: 2px solid #6a1b9a;
+  color: #6a1b9a;
+  border-bottom: 2px solid #6a1b9a;
 }
-.navbar .create-quiz {
-    background-color: #6a1b9a;
-    color: #fff;
-    padding: 5px 15px;
-    border-radius: 20px;
-    text-decoration: none;
+
+/* Search Bar (Move to Right, Left of Logout Button) */
+.navbar .search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-left: auto; /* Pindahkan search bar ke kanan */
+  margin-right: 20px; /* Memberikan jarak antara search bar dan tombol logout */
 }
-.navbar .menu-icon {
-    display: none;
+
+.navbar .search-bar input {
+  border: none;
+  background: none;
+  outline: none;
+  padding: 5px;
+  font-size: 16px;
 }
+
+.navbar .search-bar i {
+  color: #888;
+}
+
+/* Logout Button Styles */
+.logout-button {
+  background-color: #ff5252;
+  color: #fff;
+  border: none;
+  padding: 7px 15px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f;
+}
+
+.logout-button:focus {
+  outline: none;
+}
+
 .join-code-section {
     display: flex;
     justify-content: center;
@@ -188,3 +215,443 @@ body {
     text-decoration: none;
     font-size: 16px;
 }
+
+/* instruksi */
+.instructions-section {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .instructions-section h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .instructions-section p {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .instructions-section button {
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .instructions-section button:hover {
+    background-color: #45a049;
+  }
+  
+  .instructions-section .not-found {
+    font-size: 18px;
+    color: red;
+    margin-top: 20px;
+  }
+
+/*form untuk soal */
+.form-container-siswa {
+    border: 2px solid black;
+    padding: 0px 50px 50px 50px;
+    width: 90%; 
+    max-width: 1400px;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Header dan profil */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-image {
+    height: 140px;
+    width: auto;
+}
+
+.profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.divider {
+    border: 0;
+    width: 100%;
+    height: 5px;
+    background-color: #000000;
+    margin: 20px 0;
+    border-radius: 100px;
+}
+
+/* Layout untuk soal dan jawaban */
+.formsiswa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Menambahkan pengaturan untuk memastikan setiap soal memiliki ukuran yang sama */
+.soal-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-top: 20px;  /* Pastikan margin atas juga konsisten */
+    width: 100%; /* Menjamin lebar soal-container mencakup 100% lebar layar */
+}
+
+/* Soal */
+.soal {
+    width: 60%; /* Menetapkan lebar soal 60% */
+    padding: 20px;
+    background-color: #ffffff;
+    border: 3px solid #000000;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Pastikan padding dan border tidak mengubah lebar total */
+}
+
+/* Pilihan jawaban */
+.jawaban {
+    width: 35%; /* Menetapkan lebar jawaban 35% */
+    padding: 20px;
+    box-sizing: border-box; /* Pastikan padding dan border tidak mengubah lebar total */
+}
+
+/* Tombol jawaban */
+.submit-jawaban {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    background-color: transparent;
+    color: rgb(0, 0, 0);
+    border: 2px solid black;
+    border-radius: 100px;
+    cursor: pointer;
+}
+
+.submit-jawaban:hover {
+    background-color: #3b9aff;
+}
+
+.submit-jawaban.selected {
+    background-color: #4caf50; /* Warna hijau untuk jawaban yang dipilih */
+    color: #fff;
+}
+
+/* Tombol navigasi */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.navigation-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.navigation-buttons button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.navigation-buttons button:last-child {
+    background-color: #28a745; /* Submit button */
+}
+
+/* Timer dan nilai */
+.timer-nilai-container {
+    display: flex;
+    justify-content: space-between; /* Memisahkan elemen kiri dan kanan */
+    align-items: center;
+    width: 100%; /* Memastikan container mengambil seluruh lebar */
+    margin-bottom: 10px;
+  }
+  
+  .soal-no {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: left;
+    flex-grow: 1; /* Membuat soal-no mengambil ruang yang tersisa */
+  }
+  
+  .soal-nilai {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: right;
+  }
+
+  .soal-timer {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: right;
+    color: red;
+  }
+  
+  .soal-nilai {
+    margin-right: 10px; /* Memberi jarak antara nilai dan timer */
+  }
+  
+/* Styling untuk score */
+.container-score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+  
+  /* Styling untuk kontainer skor */
+  .score {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  /* Styling untuk judul skor */
+  .score h2 {
+    font-size: 36px;
+    color: green;
+    margin-bottom: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+  
+  /* Detail soal dan jawaban */
+  .question-details {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  
+  .question-details ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .question-details li {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  .correct {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .benar {
+    color: blue;
+    font-weight: bold;
+  }
+  
+  .incorrect {
+    color: red;
+    font-weight: bold;
+  }
+
+  /* Tombol untuk melanjutkan atau kembali */
+  .button-peringkat {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Memberikan jarak antar tombol */
+  }
+  
+  .button-peringkat button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 14px;
+    background-color: #0033ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-peringkat button:hover {
+    background-color: #000000;
+  }
+  
+  /* peringkat section */
+  .peringkat-container {
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .top-3 {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 30px;
+  }
+  
+  .top-player {
+    background-color: #f0f8ff;
+    border: 2px solid #00008b;
+    border-radius: 10px;
+    padding: 20px;
+    width: 120px;
+    text-align: center;
+  }
+  
+  .top-player.rank-1 {
+    background-color: #ffd700; /* Gold */
+  }
+  
+  .top-player.rank-2 {
+    background-color: #c0c0c0; /* Silver */
+  }
+  
+  .top-player.rank-3 {
+    background-color: #cd7f32; /* Bronze */
+  }
+  
+  .rank-list {
+    margin-top: 20px;
+    text-align: left;
+    display: inline-block;
+    width: 50%;
+  }
+  
+  .rank-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .rank {
+    font-weight: bold;
+  }
+  
+  .name {
+    flex-grow: 1;
+    text-align: left;
+    margin-left: 10px;
+  }
+  
+  .score1 {
+    font-weight: bold;
+  }
+  
+  /* Waiting Room Container */
+.waiting-room-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f9f9f9;
+  }
+  
+  .waiting-room-content {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+  }
+  
+  .waiting-room-content h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #4caf50;
+    margin-bottom: 20px;
+  }
+  
+  .waiting-room-message {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .waiting-room-message strong {
+    color: #4caf50;
+    font-size: 20px;
+  }
+  
+  .user-display {
+    background-color: #f3f4f6;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .user-display p {
+    font-size: 16px;
+    color: #777;
+  }
+  
+  .user-display h3 {
+    font-size: 24px;
+    color: #333;
+    margin-top: 5px;
+  }
+  
+  .waiting-room-instructions {
+    font-size: 16px;
+    color: #555;
+    margin-top: 20px;
+  }
+
+  .waiting-room-container {
+    padding: 20px;
+  }
+  
+  .input-name-section {
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .waiting-room-section {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .user-input input {
+    padding: 8px;
+    margin-right: 10px;
+  }
+  
+  .join-button {
+    padding: 10px 20px;
+    margin-top: 10px;
+  }
+  
+  .start-button {
+    padding: 10px 20px;
+    margin-top: 20px;
+  }

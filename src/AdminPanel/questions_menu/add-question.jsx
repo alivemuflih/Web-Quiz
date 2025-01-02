@@ -7,8 +7,6 @@ const AddQuestion = ({ quizCourses, setQuizCourses, examsCourses, onSectionChang
   const [options, setOptions] = useState({
     option1: "",
     option2: "",
-    option3: "",
-    option4: "",
   });
   const [correctOption, setCorrectOption] = useState("");
 
@@ -66,17 +64,12 @@ const AddQuestion = ({ quizCourses, setQuizCourses, examsCourses, onSectionChang
     }));
   };
 
-  const handleAddQuestion = () => {
-    // Reset input fields untuk menambah soal baru setelah soal disimpan
-    setQuestion("");
-    setMarks("");
-    setOptions({
-      option1: "",
-      option2: "",
-      option3: "",
-      option4: "",
-    });
-    setCorrectOption("");
+  const handleAddOption = () => {
+    const newOptionKey = `option${Object.keys(options).length + 1}`;
+    setOptions((prevOptions) => ({
+      ...prevOptions,
+      [newOptionKey]: "",
+    }));
   };
 
   const handleAddAnotherQuestion = () => {
@@ -122,6 +115,17 @@ const AddQuestion = ({ quizCourses, setQuizCourses, examsCourses, onSectionChang
     handleAddQuestion();
   };
 
+  const handleAddQuestion = () => {
+    // Reset input fields untuk menambah soal baru setelah soal disimpan
+    setQuestion("");
+    setMarks("");
+    setOptions({
+      option1: "",
+      option2: "",
+    });
+    setCorrectOption("");
+  };
+
   return (
     <div className="add-questions">
       <h2>Add Question</h2>
@@ -165,30 +169,23 @@ const AddQuestion = ({ quizCourses, setQuizCourses, examsCourses, onSectionChang
 
         <div className="form-group">
           <label>Options</label>
-          <input
-            id="option1"
-            value={options.option1}
-            onChange={handleOptionChange}
-            placeholder="Option 1"
-          />
-          <input
-            id="option2"
-            value={options.option2}
-            onChange={handleOptionChange}
-            placeholder="Option 2"
-          />
-          <input
-            id="option3"
-            value={options.option3}
-            onChange={handleOptionChange}
-            placeholder="Option 3"
-          />
-          <input
-            id="option4"
-            value={options.option4}
-            onChange={handleOptionChange}
-            placeholder="Option 4"
-          />
+          {Object.keys(options).map((optionKey) => (
+            <div key={optionKey} className="option-input">
+              <label>{`Option ${optionKey.replace('option', '')}`}</label>
+              <input
+                id={optionKey}
+                value={options[optionKey]}
+                onChange={handleOptionChange}
+              />
+            </div>
+          ))}
+
+          {/* Add gap between options and the Add button */}
+          <div className="add-option-btn">
+            <button type="button" onClick={handleAddOption}>
+              Add Another Option
+            </button>
+          </div>
         </div>
 
         <div className="form-group">
@@ -199,10 +196,11 @@ const AddQuestion = ({ quizCourses, setQuizCourses, examsCourses, onSectionChang
             required
           >
             <option value="">Select correct option</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-            <option value="option4">Option 4</option>
+            {Object.keys(options).map((optionKey) => (
+              <option key={optionKey} value={optionKey}>
+                {options[optionKey]}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -216,4 +214,3 @@ const AddQuestion = ({ quizCourses, setQuizCourses, examsCourses, onSectionChang
 };
 
 export default AddQuestion;
-
