@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const AddCourse = ({ examCourses, setExamCourses, onSectionChange }) => {
   const [courseName, setCourseName] = useState("");
@@ -6,21 +7,40 @@ const AddCourse = ({ examCourses, setExamCourses, onSectionChange }) => {
   const [totalMarks, setTotalMarks] = useState("");
 
   const handleAddCourse = () => {
-    if (!courseName || !totalQuestions || !totalMarks) {
-      alert("Please fill in all fields.");
+    // Validasi input
+    if (!courseName.trim()) {
+      alert("Course Name cannot be empty.");
+      return;
+    }
+
+    if (!totalQuestions || totalQuestions <= 0) {
+      alert("Total Questions must be a positive number.");
+      return;
+    }
+
+    if (!totalMarks || totalMarks <= 0) {
+      alert("Total Marks must be a positive number.");
       return;
     }
 
     const newCourse = {
-      id: examCourses.length + 1,  // ID berdasarkan panjang array eksisting
-      courseName,
-      totalQuestions: totalQuestions,
-      totalMarks: totalMarks,
+      courseName: courseName.trim(),
+      totalQuestions: parseInt(totalQuestions, 10),
+      totalMarks: parseInt(totalMarks, 10),
     };
 
-    // Memperbarui daftar kursus
-    setExamCourses([...examCourses, newCourse]);
-    onSectionChange("ViewCourse");  // Berpindah ke bagian ViewExams setelah menambahkan kursus
+
+    // Kirim data ke backend menggunakan POST
+    axios.post(`${process.env.REACT_APP_API_URL}/api/courses`, newCourse)
+      .then((response) => {
+        setExamCourses([...examCourses, response.data]);
+        onSectionChange("ViewCourse");
+      })
+      .catch((error) => {
+        console.error("Error adding course:", error);
+        const errorMessage = error.response?.data?.error || "Failed to add course. Please try again.";
+        alert(errorMessage);
+      });
   };
 
   return (

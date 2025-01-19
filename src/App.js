@@ -12,6 +12,7 @@ import Nilai from "./SiswaPanel/nilai"; // Baru ditambahkan
 import Leaderboard from "./SiswaPanel/leaderboard.jsx"; // Baru ditambahkan
 import WaitingRoom from "./SiswaPanel/waiting-room.jsx";
 import SoalGuru from "./SiswaPanel/soal-guru.jsx";
+import DetailQuestion from "./AdminPanel/questions_menu/detail-question.jsx";
 
 function App() {
   return (
@@ -24,12 +25,13 @@ function App() {
         <Route path="/LoginForm" element={<LoginForm />} />
         <Route path="/HomeTeacher" element={<HomeTeacher />} />
         <Route path="/HomeSiswa" element={<HomeSiswa />} />
-        <Route path="/Instruksi/:courseName" element={<Instruksi />} />
-        <Route path="/Soal/:courseName" element={<Soal />} />
+        <Route path="/Instruksi/:courseId" element={<Instruksi />} />
+        <Route path="/course/:courseId/soal" element={<Soal />} />
         <Route path="/Nilai" element={<Nilai />} />
         <Route path="/Leaderboard" element={<Leaderboard />} />
         <Route path="/WaitingRoom/:joinCode" element={<WaitingRoom />} />
         <Route path="/SoalGuru/:joinCode" element={<SoalGuru />} />
+        <Route path="/DetailQuestion" element={<DetailQuestion />} />
       </Routes>
     </Router>
   );

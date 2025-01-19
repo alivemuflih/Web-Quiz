@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -24,45 +25,40 @@ const Admin = () => {
   const [loggedIn, setLoggedIn] = useState(true);
   const [examCourses, setExamCourses] = useState([]);
   const [quizCourses, setQuizCourses] = useState([]);
-  const [selectedQuiz, setSelectedQuiz] = useState(null);
+  const [courseId, setSelectedQuiz] = useState(null);
+  const [questions, setQuestions] = useState([]); // State untuk menyimpan soal
+
+  // Ambil soal dari backend berdasarkan courseId
+  useEffect(() => {
+    console.log("useEffect triggered. Current courseId:", courseId); // Log ketika useEffect dijalankan
+  
+    if (courseId && courseId.id) {
+      console.log("Fetching questions for course:", courseId.id); // Log sebelum pengambilan data
+  
+      axios
+        .get(`http://localhost:5000/api/questions/${courseId.id}`) // Menggunakan courseId.id untuk mengambil soal
+        .then((response) => {
+          console.log("Questions fetched successfully:", response.data); // Log jika data berhasil diambil
+          setQuestions(response.data); // Set soal yang diterima dari backend
+        })
+        .catch((error) => {
+          console.error("Error fetching questions:", error); // Log error jika terjadi kesalahan
+        });
+    } else {
+      console.log("No valid courseId provided, skipping data fetch."); // Log jika tidak ada courseId yang valid
+    }
+  }, [courseId]); // Efek dijalankan setiap kali courseId berubah  
+  
 
   const handleLogout = () => {
     setLoggedIn(false);
   };
 
-  const handleSectionChange = (newSection) => {
+  const handleSectionChange = (newSection, data) => {
     setSection(newSection);
-  };
-
-  const handleDeleteQuestion = (questionIndex) => {
-    if (!selectedQuiz) return;
-
-    const updatedQuestions = selectedQuiz.questions.filter((_, index) => index !== questionIndex);
-    const updatedQuiz = { ...selectedQuiz, questions: updatedQuestions };
-
-    const updatedQuizCourses = quizCourses.map((quiz) =>
-      quiz.id === updatedQuiz.id ? updatedQuiz : quiz
-    );
-
-    setQuizCourses(updatedQuizCourses);
-    setSelectedQuiz(updatedQuiz);
-  };
-
-  const handleEditQuestion = (questionIndex, updatedQuestion) => {
-    if (!selectedQuiz) return;
-
-    const updatedQuestions = selectedQuiz.questions.map((question, index) =>
-      index === questionIndex ? updatedQuestion : question
-    );
-
-    const updatedQuiz = { ...selectedQuiz, questions: updatedQuestions };
-
-    const updatedQuizCourses = quizCourses.map((quiz) =>
-      quiz.id === updatedQuiz.id ? updatedQuiz : quiz
-    );
-
-    setQuizCourses(updatedQuizCourses);
-    setSelectedQuiz(updatedQuiz);
+    if (newSection === "DetailQuestion" && data) {
+      setSelectedQuiz(data.course);
+    }
   };
 
   if (!loggedIn) {
@@ -116,18 +112,13 @@ const Admin = () => {
             <ViewQuestion
               quizCourses={quizCourses}
               setQuizCourses={setQuizCourses}
-              onViewQuiz={(quiz) => {
-                setSelectedQuiz(quiz);
-                handleSectionChange("DetailQuiz");
-              }}
+              onSectionChange={handleSectionChange}
             />
           )}
-          {section === "DetailQuiz" && (
+          {section === "DetailQuestion" && courseId && (
             <DetailQuestion
-              quiz={selectedQuiz}
-              onBack={() => handleSectionChange("ViewQuestion")}
-              onDelete={handleDeleteQuestion}
-              onEdit={handleEditQuestion} // Tambahkan fungsi onEdit
+              course={courseId} // Mengirimkan courseId yang berisi data kursus
+              onSectionChange={handleSectionChange}
             />
           )}
         </section>

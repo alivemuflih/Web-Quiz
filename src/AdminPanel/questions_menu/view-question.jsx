@@ -1,12 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const ViewQuestion = ({ quizCourses, setQuizCourses, onViewQuiz }) => {
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this quiz?")) {
-      const updatedCourses = quizCourses.filter((course) => course.id !== id);
-      setQuizCourses(updatedCourses);
+const ViewQuestion = ({ onSectionChange }) => {
+  const [quizCourses, setQuizCourses] = useState([]);
+  const [error, setError] = useState('');
+
+  // Fetch courses
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/api/courses')
+      .then((response) => {
+        setQuizCourses(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching courses:', error);
+        setError('Failed to fetch courses. Please try again later.');
+      });
+  }, []);
+
+  // Handle navigate to DetailQuiz component
+  const handleView = (course) => {
+    try {
+      if (!course || !course.id) {
+        throw new Error('Invalid course data. Cannot navigate to detail.');
+      }
+      // Pass the course data to onSectionChange to handle navigation
+      onSectionChange('DetailQuestion', { course });
+    } catch (err) {
+      console.error('Error in handleView:', err.message);
+      alert(`Failed to navigate to quiz details: ${err.message}`);
     }
   };
+
   return (
     <div className="container">
       <div className="panel panel-primary">
@@ -19,10 +44,16 @@ const ViewQuestion = ({ quizCourses, setQuizCourses, onViewQuiz }) => {
               <th>Course Name</th>
               <th>Total Marks</th>
               <th>View Quiz</th>
-              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
+            {error && (
+              <tr>
+                <td colSpan="3" style={{ textAlign: 'center', color: 'red' }}>
+                  {error}
+                </td>
+              </tr>
+            )}
             {quizCourses.length > 0 ? (
               quizCourses.map((course) => (
                 <tr key={course.id}>
@@ -31,24 +62,16 @@ const ViewQuestion = ({ quizCourses, setQuizCourses, onViewQuiz }) => {
                   <td>
                     <button
                       className="btn btn-primary"
-                      onClick={() => onViewQuiz(course)}
+                      onClick={() => handleView(course)}
                     >
                       View
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-primary-delete"
-                      onClick={() => handleDelete(course.id)}
-                    >
-                      Delete
                     </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" style={{ textAlign: "center" }}>
+                <td colSpan="3" style={{ textAlign: 'center' }}>
                   No quizzes available.
                 </td>
               </tr>

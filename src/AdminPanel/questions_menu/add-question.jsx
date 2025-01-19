@@ -1,20 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-const AddQuestion = ({ quizCourses, setQuizCourses, examsCourses, onSectionChange }) => {
+const AddQuestion = ({ onSectionChange }) => {
+  const [quizCourses, setQuizCourses] = useState([]);
   const [course, setCourse] = useState("");
   const [question, setQuestion] = useState("");
   const [marks, setMarks] = useState("");
-  const [options, setOptions] = useState({
-    option1: "",
-    option2: "",
-  });
+  const [options, setOptions] = useState(["", ""]); // 2 opsi awal
   const [correctOption, setCorrectOption] = useState("");
+  const [error, setError] = useState(""); // Untuk menangani error fetching
 
-  const handleSave = (e) => {
+  // Muat data kursus dari backend
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/courses")
+      .then((response) => setQuizCourses(response.data))
+      .catch((error) => {
+        console.error("Error fetching courses:", error);
+        setError("Failed to fetch courses. Please try again later.");
+      });
+  }, []);
+
+  // Validasi marks
+  const handleMarksChange = (e) => {
+    const value = e.target.value;
+    if (value >= 0) {
+      setMarks(value);
+    }
+  };
+
+  // Validasi saat menyimpan soal
+  const handleSaveQuestion = (e) => {
     e.preventDefault();
 
-    // Cek apakah semua field telah diisi
-    if (!course || !question || !marks || !correctOption) {
+    if (!course || !question || !marks || !correctOption || options.some(opt => !opt.trim())) {
       alert("Please fill in all fields before submitting.");
       return;
     }
@@ -26,56 +45,47 @@ const AddQuestion = ({ quizCourses, setQuizCourses, examsCourses, onSectionChang
       marks: parseInt(marks),
     };
 
-    // Cari apakah kursus sudah ada
-    const existingCourseIndex = quizCourses.findIndex((courseItem) => courseItem.id === parseInt(course));
-
-    if (existingCourseIndex !== -1) {
-      // Jika kursus sudah ada, tambahkan soal ke kursus tersebut
-      const updatedQuizCourses = [...quizCourses];
-      updatedQuizCourses[existingCourseIndex].questions.push(newQuestion);
-      updatedQuizCourses[existingCourseIndex].totalQuestions = updatedQuizCourses[existingCourseIndex].questions.length;
-      updatedQuizCourses[existingCourseIndex].totalMarks = updatedQuizCourses[existingCourseIndex].questions.reduce(
-        (total, q) => total + q.marks,
-        0
-      );
-      setQuizCourses(updatedQuizCourses);
-    } else {
-      // Jika kursus belum ada, buat kursus baru dengan soal pertama
-      const newCourse = {
-        id: parseInt(course),
-        courseName: examsCourses.find((courseItem) => courseItem.id === parseInt(course))?.courseName,
-        totalQuestions: 1,
-        totalMarks: parseInt(marks),
-        questions: [newQuestion],
-      };
-      setQuizCourses([...quizCourses, newCourse]);
-    }
-
-    // Reset input fields setelah soal ditambahkan
-    handleAddQuestion();
-    onSectionChange("ViewQuestion");
+    // Pastikan ID kursus disertakan dalam URL
+    axios
+      .post(`http://localhost:5000/api/courses/${course}/questions`, newQuestion)
+      .then(() => {
+        // Reset form setelah soal pertama disimpan
+        resetForm();
+        // Pindah ke halaman View Question setelah menyimpan
+        onSectionChange("ViewQuestion");
+      })
+      .catch((error) => {
+        console.error("Error saving question:", error);
+        alert("Failed to save the question. Please try again.");
+      });
   };
 
-  const handleOptionChange = (e) => {
-    const { id, value } = e.target;
-    setOptions((prevOptions) => ({
-      ...prevOptions,
-      [id]: value,
-    }));
+  // Reset form setelah soal ditambahkan
+  const resetForm = () => {
+    setQuestion("");
+    setMarks("");
+    setOptions(["", ""]); // Kembali ke 2 opsi awal
+    setCorrectOption("");
   };
 
+  // Menangani perubahan pada opsi jawaban
+  const handleOptionChange = (e, index) => {
+    const updatedOptions = [...options];
+    updatedOptions[index] = e.target.value;
+    setOptions(updatedOptions);
+  };
+
+  // Menambah opsi jawaban baru
   const handleAddOption = () => {
-    const newOptionKey = `option${Object.keys(options).length + 1}`;
-    setOptions((prevOptions) => ({
-      ...prevOptions,
-      [newOptionKey]: "",
-    }));
+    setOptions([...options, ""]); // Menambah opsi baru dengan string kosong
   };
 
-  const handleAddAnotherQuestion = () => {
-    // Cek apakah semua field telah diisi sebelum menambah soal berikutnya
-    if (!course || !question || !marks || !correctOption) {
-      alert("Please fill in all fields before adding another question.");
+  // Menangani "Add Another Question"
+  const handleAddAnotherQuestion = (e) => {
+    e.preventDefault(); // Prevent form submission that would trigger page change
+
+    if (!course || !question || !marks || !correctOption || options.some(opt => !opt.trim())) {
+      alert("Please fill in all fields before submitting.");
       return;
     }
 
@@ -86,51 +96,27 @@ const AddQuestion = ({ quizCourses, setQuizCourses, examsCourses, onSectionChang
       marks: parseInt(marks),
     };
 
-    // Tambahkan soal ke quizCourses, tanpa reset state
-    const existingCourseIndex = quizCourses.findIndex((courseItem) => courseItem.id === parseInt(course));
-
-    if (existingCourseIndex !== -1) {
-      // Jika kursus sudah ada, tambahkan soal ke kursus tersebut
-      const updatedQuizCourses = [...quizCourses];
-      updatedQuizCourses[existingCourseIndex].questions.push(newQuestion);
-      updatedQuizCourses[existingCourseIndex].totalQuestions = updatedQuizCourses[existingCourseIndex].questions.length;
-      updatedQuizCourses[existingCourseIndex].totalMarks = updatedQuizCourses[existingCourseIndex].questions.reduce(
-        (total, q) => total + q.marks,
-        0
-      );
-      setQuizCourses(updatedQuizCourses);
-    } else {
-      // Jika kursus belum ada, buat kursus baru dengan soal pertama
-      const newCourse = {
-        id: parseInt(course),
-        courseName: examsCourses.find((courseItem) => courseItem.id === parseInt(course))?.courseName,
-        totalQuestions: 1,
-        totalMarks: parseInt(marks),
-        questions: [newQuestion],
-      };
-      setQuizCourses([...quizCourses, newCourse]);
-    }
-
-    // Reset input fields setelah soal ditambahkan
-    handleAddQuestion();
-  };
-
-  const handleAddQuestion = () => {
-    // Reset input fields untuk menambah soal baru setelah soal disimpan
-    setQuestion("");
-    setMarks("");
-    setOptions({
-      option1: "",
-      option2: "",
-    });
-    setCorrectOption("");
+    // Simpan soal ke backend
+    axios
+      .post(`http://localhost:5000/api/courses/${course}/questions`, newQuestion)
+      .then(() => {
+        // Reset form untuk soal berikutnya
+        resetForm();
+        // Tidak perlu pindah ke halaman View Question
+      })
+      .catch((error) => {
+        console.error("Error saving question:", error);
+        alert("Failed to save the question. Please try again.");
+      });
   };
 
   return (
     <div className="add-questions">
       <h2>Add Question</h2>
 
-      <form onSubmit={handleSave}>
+      {error && <p className="error-message">{error}</p>} {/* Tampilkan pesan error */}
+
+      <form>
         <div className="form-group">
           <label>Select Course</label>
           <select
@@ -139,7 +125,7 @@ const AddQuestion = ({ quizCourses, setQuizCourses, examsCourses, onSectionChang
             required
           >
             <option value="">Select a course</option>
-            {examsCourses.map((courseItem) => (
+            {quizCourses.map((courseItem) => (
               <option key={courseItem.id} value={courseItem.id}>
                 {courseItem.courseName}
               </option>
@@ -162,27 +148,28 @@ const AddQuestion = ({ quizCourses, setQuizCourses, examsCourses, onSectionChang
           <input
             type="number"
             value={marks}
-            onChange={(e) => setMarks(e.target.value)}
+            onChange={handleMarksChange}
             required
           />
         </div>
 
         <div className="form-group">
           <label>Options</label>
-          {Object.keys(options).map((optionKey) => (
-            <div key={optionKey} className="option-input">
-              <label>{`Option ${optionKey.replace('option', '')}`}</label>
+          {options.map((option, index) => (
+            <div key={index} className="option-input">
+              <label>{`Option ${index + 1}`}</label>
               <input
-                id={optionKey}
-                value={options[optionKey]}
-                onChange={handleOptionChange}
+                value={option}
+                onChange={(e) => handleOptionChange(e, index)}
+                placeholder={`Enter Option ${index + 1}`}
               />
             </div>
           ))}
-
-          {/* Add gap between options and the Add button */}
           <div className="add-option-btn">
-            <button type="button" onClick={handleAddOption}>
+            <button
+              type="button"
+              onClick={handleAddOption}
+            >
               Add Another Option
             </button>
           </div>
@@ -196,17 +183,21 @@ const AddQuestion = ({ quizCourses, setQuizCourses, examsCourses, onSectionChang
             required
           >
             <option value="">Select correct option</option>
-            {Object.keys(options).map((optionKey) => (
-              <option key={optionKey} value={optionKey}>
-                {options[optionKey]}
+            {options.map((option, index) => (
+              <option key={index} value={option}>
+                {option}
               </option>
             ))}
           </select>
         </div>
 
         <div className="form-button">
-          <button type="button" onClick={handleAddAnotherQuestion}>Add Another Question</button>
-          <button type="submit">Save Question</button>
+          <button type="button" onClick={handleAddAnotherQuestion}>
+            Add Another Question
+          </button>
+          <button type="button" onClick={handleSaveQuestion}>
+            Save Question
+          </button>
         </div>
       </form>
     </div>

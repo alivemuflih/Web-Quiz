@@ -1,10 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 
 const ViewCourse = ({ examCourses, setExamCourses }) => {
+  useEffect(() => {
+    // Ambil data kursus dari backend saat komponen dimuat
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/courses`)
+      .then((response) => {
+        setExamCourses(response.data); // Perbarui state dengan data dari backend
+      })
+      .catch((error) => {
+        console.error("Error fetching courses:", error.response?.data || error.message);
+        alert("Failed to fetch courses.");
+      });
+  }, [setExamCourses]);
+
   const handleDelete = (id) => {
+    console.log("Deleting course with ID:", id); // Debugging
     if (window.confirm("Are you sure you want to delete this course?")) {
-      const updatedCourses = examCourses.filter((course) => course.id !== id);
-      setExamCourses(updatedCourses);
+      axios
+        .delete(`${process.env.REACT_APP_API_URL}/api/courses/${id}`)
+        .then(() => {
+          const updatedCourses = examCourses.filter((course) => course.id !== id);
+          setExamCourses(updatedCourses);
+          alert("Course deleted successfully.");
+        })
+        .catch((error) => {
+          console.error("Error deleting course:", error.response?.data || error.message);
+          alert("Failed to delete course.");
+        });
     }
   };
 
@@ -32,7 +56,7 @@ const ViewCourse = ({ examCourses, setExamCourses }) => {
                   <td>{course.totalMarks}</td>
                   <td>
                     <button
-                      className="btn btn-primary-delete"
+                      className="btn btn-danger"
                       onClick={() => handleDelete(course.id)}
                     >
                       Delete

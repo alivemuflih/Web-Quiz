@@ -1,55 +1,46 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import "./siswa.css";
 import logo from "../assets/logo1.png";
 import { FaRegClock } from "react-icons/fa";
 
 const Soal = () => {
-  const email = localStorage.getItem("email");
-  const profileImage = email
-    ? `https://www.gravatar.com/avatar/${email}`
-    : null;
+  const { courseId } = useParams(); // Get courseId from URL
+  const navigate = useNavigate();
 
-  const questions = [
-    {
-      id: 1,
-      question: "Apa hasil dari 2 + 2?",
-      options: ["2", "3", "4", "5"],
-      correctAnswer: "4",
-      points: 10,
-    },
-    {
-      id: 2,
-      question: "Apa ibu kota Indonesia?",
-      options: ["Bandung", "Jakarta", "Surabaya", "Medan"],
-      correctAnswer: "Jakarta",
-      points: 10,
-    },
-    {
-      id: 3,
-      question: "Berapa jumlah warna dalam pelangi?",
-      options: ["5", "6", "7", "8"],
-      correctAnswer: "7",
-      points: 10,
-    },
-  ];
-
+  const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [timeLeft, setTimeLeft] = useState(30);
   const [totalScore, setTotalScore] = useState(0);
 
-  const currentQuestion = questions[currentQuestionIndex];
-  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/courses/${courseId}/questions`
+        );
+        if (response.data) {
+          setQuestions(response.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch questions:", error);
+      }
+    };
+    fetchQuestions();
+  }, [courseId]);
+
+  const currentQuestion = questions[currentQuestionIndex] || {}; // Default to an empty object if undefined
 
   const handleAnswer = (option) => {
     setAnswers((prev) => ({
       ...prev,
-      [currentQuestion.id]: option,
+      [currentQuestion.question_id]: option, // Make sure to use the correct `question_id`
     }));
 
-    if (option === currentQuestion.correctAnswer) {
-      setTotalScore((prevScore) => prevScore + currentQuestion.points);
+    if (option === currentQuestion.correct_option) {
+      setTotalScore((prevScore) => prevScore + currentQuestion.marks);
     }
   };
 
@@ -68,18 +59,20 @@ const Soal = () => {
   };
 
   const handleSubmit = () => {
-    if (!answers[currentQuestion.id]) {
+    // If a question is not answered, mark it as "Tidak Dijawab"
+    if (!answers[currentQuestion.question_id]) {
       setAnswers((prev) => ({
         ...prev,
-        [currentQuestion.id]: "Tidak Dijawab",
+        [currentQuestion.question_id]: "Tidak Dijawab",
       }));
     }
 
+    // Pass answers to the next page
     navigate("/Nilai", {
       state: {
         totalScore,
-        questions,
         answers,
+        courseId,
       },
     });
   };
@@ -89,10 +82,10 @@ const Soal = () => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
           clearInterval(timer);
-          if (!answers[currentQuestion.id]) {
+          if (!answers[currentQuestion.question_id]) {
             setAnswers((prev) => ({
               ...prev,
-              [currentQuestion.id]: "Tidak Dijawab",
+              [currentQuestion.question_id]: "Tidak Dijawab",
             }));
           }
           handleNextQuestion();
@@ -102,21 +95,22 @@ const Soal = () => {
       });
     }, 1000);
 
-    return () => clearInterval(timer); // Bersihkan timer saat komponen di-unmount
-  }, [currentQuestionIndex, handleNextQuestion, answers, currentQuestion.id]);
+    return () => clearInterval(timer);
+  }, [currentQuestionIndex, handleNextQuestion, answers, currentQuestion.question_id]);
 
   const allQuestionsAnswered = Object.keys(answers).length === questions.length;
+
+  const email = localStorage.getItem("email");
+  const profileImage = email
+    ? `https://www.gravatar.com/avatar/${email}`
+    : "https://via.placeholder.com/50";
 
   return (
     <div className="App">
       <div className="form-container-siswa">
         <div className="header">
           <img src={logo} alt="Logo" className="logo-image" />
-          <img
-            src={profileImage || "https://via.placeholder.com/50"}
-            alt="Profile"
-            className="profile-image"
-          />
+          <img src={profileImage} alt="Profile" className="profile-image" />
         </div>
         <div className="divider"></div>
         <div className="formsiswa">
@@ -125,7 +119,7 @@ const Soal = () => {
               Soal No. {currentQuestionIndex + 1} dari {questions.length}
             </div>
             <div className="soal-nilai">
-              Nilai: {currentQuestion.points} Poin |
+              Nilai: {currentQuestion.marks} Poin |
             </div>
             <div className="soal-timer">
               <FaRegClock /> {timeLeft} s
@@ -133,14 +127,14 @@ const Soal = () => {
           </div>
           <div className="soal-container">
             <div className="soal">
-              <p>{currentQuestion.question}</p>
+              <p>{currentQuestion.question_text}</p>
             </div>
             <div className="jawaban">
-              {currentQuestion.options.map((option, index) => (
+              {currentQuestion.options?.map((option, index) => (
                 <button
                   key={index}
                   className={`submit-jawaban ${
-                    answers[currentQuestion.id] === option ? "selected" : ""
+                    answers[currentQuestion.question_id] === option ? "selected" : ""
                   }`}
                   onClick={() => handleAnswer(option)}
                 >
