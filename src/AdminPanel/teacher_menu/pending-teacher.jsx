@@ -1,78 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import "../admin.css";
 
 const PendingTeachers = () => {
-  const [teachers, setTeachers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [teachers, setTeachers] = useState([
+    {
+      id: 1,
+      name: "John Doe",
+      profile_pic: "/default-avatar.png",
+      mobile: "08123456789",
+      address: "Jl. Merdeka No. 123",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      profile_pic: "/default-avatar.png",
+      mobile: "08129876543",
+      address: "Jl. Sudirman No. 456",
+    },
+  ]);
 
-  useEffect(() => {
-    fetchTeachers();
-  }, []);
-
-  const fetchTeachers = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/pending-teachers`);
-      if (!response.ok) throw new Error("Failed to fetch teachers");
-      
-      const data = await response.json();
-      setTeachers(data);
-    } catch (err) {
-      setError("Error loading teachers: " + err.message);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleApprove = (id) => {
+    setTeachers(teachers.filter((teacher) => teacher.id !== id));
+    alert("Guru berhasil disetujui!");
   };
 
-  const handleApprove = async (id) => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/teachers/${id}/approve`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) throw new Error(data.message);
-
-      setTeachers(teachers.filter(teacher => teacher.id !== id));
-      alert("Guru berhasil disetujui!");
-    } catch (err) {
-      alert("Gagal menyetujui guru: " + err.message);
-    }
-  };
-
-  const handleReject = async (id) => {
+  const handleReject = (id) => {
     if (!window.confirm("Apakah Anda yakin ingin menolak guru ini?")) {
       return;
     }
-
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/teachers/${id}/reject`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) throw new Error(data.message);
-
-      setTeachers(teachers.filter(teacher => teacher.id !== id));
-      alert("Guru berhasil ditolak!");
-    } catch (err) {
-      alert("Gagal menolak guru: " + err.message);
-    }
+    setTeachers(teachers.filter((teacher) => teacher.id !== id));
+    alert("Guru berhasil ditolak!");
   };
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div className="error-message">{error}</div>;
 
   return (
     <div className="container">

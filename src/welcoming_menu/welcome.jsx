@@ -17,7 +17,10 @@ const Welcome = () => {
         <img src={bg} alt="bg" className="bg-image" />
         <h1>Selamat Datang Di <span>Nau.id</span></h1>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, doloremque? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem, id?
+        💡 <strong>"Asah Pengetahuanmu, Raih Skor Tertinggi!"</strong><br />
+        <br />
+        🎯Mulai petualanganmu dengan memilih kuis favorit.<br />
+           Belajar sambil bermain dan lihat seberapa jauh kamu bisa melangkah!
         </p>
         {/* Use a button with an onClick to trigger navigation */}
         <div className="button-container">

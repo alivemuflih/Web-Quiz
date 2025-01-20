@@ -38,22 +38,27 @@ router.get('/courses', (req, res) => {
 router.delete('/courses/:id', (req, res) => {
   const { id } = req.params;
 
-  if (!id || isNaN(id)) {
-    return res.status(400).json({ error: 'Invalid ID' });
-  }
-
-  db.query('DELETE FROM courses WHERE id = ?', [id], (err, results) => {
+  db.query('DELETE FROM questions WHERE course_id = ?', [id], (err) => {
     if (err) {
-      return res.status(500).json({ error: 'Database query error' });
+      console.error('Error deleting related questions:', err);
+      return res.status(500).json({ error: 'Failed to delete related questions' });
     }
 
-    if (results.affectedRows === 0) {
-      return res.status(404).json({ error: 'Course not found' });
-    }
+    db.query('DELETE FROM courses WHERE id = ?', [id], (err, results) => {
+      if (err) {
+        console.error('Error deleting course:', err);
+        return res.status(500).json({ error: 'Failed to delete course' });
+      }
 
-    res.status(200).json({ message: 'Course deleted successfully' });
+      if (results.affectedRows === 0) {
+        return res.status(404).json({ error: 'Course not found' });
+      }
+
+      res.status(200).json({ message: 'Course deleted successfully' });
+    });
   });
 });
+
 
 // Route untuk mengambil kursus berdasarkan courseName
 router.get('/courses/:courseName', (req, res) => {
